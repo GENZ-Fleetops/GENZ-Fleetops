@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Upload package &amp; file map</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;flex-wrap:wrap;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:900px){.gnav-links{display:none;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--deep:#090d1a;--panel:#0e1530;--blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;--steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;--mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;}
+body{margin:0;background:#050810;color:var(--chrome);font-family:var(--head),system-ui,sans-serif;line-height:1.6;min-height:100vh;}
+.doc-wrap{max-width:820px;margin:0 auto;padding:40px 24px 80px;}
+.doc-eyebrow{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.25em;color:var(--accent);margin-bottom:12px;}
+h1{font-family:var(--head);font-size:1.75rem;font-weight:700;color:var(--white);letter-spacing:0.06em;margin-bottom:8px;}
+.lead{font-size:0.95rem;color:var(--steel);margin-bottom:28px;}
+h2{font-family:var(--head);font-size:1rem;font-weight:700;color:var(--white);letter-spacing:0.1em;margin:32px 0 14px;border-bottom:1px solid rgba(26,109,255,0.2);padding-bottom:8px;}
+p,li{font-size:0.88rem;color:var(--chrome);margin-bottom:10px;}
+ul{margin:0 0 16px 1.2rem;}
+a{color:var(--blue2);text-decoration:none;}
+a:hover{text-decoration:underline;color:var(--accent);}
+.map-box{background:var(--panel);border:1px solid rgba(26,109,255,0.15);border-radius:4px;padding:20px 22px;margin:16px 0;font-family:var(--mono);font-size:0.72rem;line-height:1.85;color:var(--chrome);}
+.map-box strong{color:var(--white);font-weight:600;}
+.file-row{display:flex;gap:12px;flex-wrap:wrap;align-items:baseline;margin:6px 0;}
+.file-name{color:var(--accent);min-width:140px;}
+.note{font-size:0.8rem;color:var(--steel);border-left:3px solid rgba(0,212,255,0.4);padding:10px 14px;margin:20px 0;background:rgba(0,212,255,0.04);}
+code{font-family:var(--mono);font-size:0.78rem;background:rgba(26,109,255,0.12);padding:2px 6px;border-radius:2px;color:var(--white);}
+.grid-links{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:12px;}
+.grid-links a{display:block;padding:12px 14px;background:rgba(26,109,255,0.08);border:1px solid rgba(26,109,255,0.2);border-radius:4px;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;color:var(--chrome);text-decoration:none;transition:all 0.2s;}
+.grid-links a:hover{background:rgba(26,109,255,0.15);border-color:var(--blue2);color:var(--white);}
+.grid-links a span{display:block;font-family:var(--head);font-size:0.85rem;letter-spacing:0.06em;color:var(--white);margin-bottom:4px;}
+</style>
+</head>
+<body>
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="readme.html" class="gnav-link current">DOCS</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">CONTACT</a>
+</nav>
+
+<main class="doc-wrap">
+  <p class="doc-eyebrow">UPLOAD PACKAGE · STATIC PREVIEW</p>
+  <h1>GENZ FleetOps™ — file map</h1>
+  <p class="lead">This page is the browser-friendly companion to <code>README.md</code>. Keep every HTML file in the <strong>same folder</strong> when you unzip or deploy so links work.</p>
+
+  <div class="grid-links">
+    <a href="index.html"><span>Marketing HUB</span>index.html</a>
+    <a href="crm.html"><span>CRM</span>crm.html</a>
+    <a href="booking.html"><span>Booking</span>booking.html</a>
+    <a href="dispatch.html"><span>Dispatch</span>dispatch.html</a>
+    <a href="finance.html"><span>Finance</span>finance.html</a>
+    <a href="driver.html"><span>Driver app</span>driver.html</a>
+    <a href="settings.html"><span>Settings</span>settings.html</a>
+  </div>
+
+  <h2>Folder layout</h2>
+  <div class="map-box">
+    <div class="file-row"><span class="file-name">index.html</span><span>Marketing landing page (homepage)</span></div>
+    <div class="file-row"><span class="file-name">crm.html</span><span>CRM · operations command</span></div>
+    <div class="file-row"><span class="file-name">booking.html</span><span>B2C booking engine</span></div>
+    <div class="file-row"><span class="file-name">dispatch.html</span><span>Live dispatch</span></div>
+    <div class="file-row"><span class="file-name">finance.html</span><span>Finance &amp; P&amp;L</span></div>
+    <div class="file-row"><span class="file-name">driver.html</span><span>Driver app preview</span></div>
+    <div class="file-row"><span class="file-name">settings.html</span><span>Platform settings</span></div>
+    <div class="file-row"><span class="file-name">readme.html</span><span>This documentation page</span></div>
+    <div class="file-row"><span class="file-name">README.md</span><span>Same instructions for editors &amp; Git (Markdown)</span></div>
+    <div class="file-row"><span class="file-name">assets/</span><span><code>genz-fleetops-logo.png</code> — replace with your logo (e.g. 200×100 PNG)</span></div>
+  </div>
+
+  <p class="note">In the top navigation, <strong>FLEET</strong> opens dispatch (operations view), <strong>VENDORS</strong> opens settings, and <strong>CUSTOMERS</strong> opens CRM. Those labels are UI placeholders until separate pages ship.</p>
+
+  <h2>Hosting</h2>
+  <ul>
+    <li><strong>Netlify + GitHub:</strong> The repository root includes <code>netlify.toml</code> pointing at this folder (<code>zip files/Zip 1/files</code>). Push the whole repo to GitHub; Netlify deploys on each push. No build command. If you edit Netlify UI settings, set <strong>Publish directory</strong> to the same path.</li>
+    <li><strong>Netlify manual:</strong> Drag the folder that contains all pages + <code>assets/</code> into a manual deploy.</li>
+    <li><strong>cPanel / shared hosting:</strong> Upload into <code>public_html</code> (or your web root). Set <code>index.html</code> as the default document.</li>
+    <li><strong>Local:</strong> Open <code>index.html</code> in a browser; all module links use relative paths.</li>
+  </ul>
+
+  <h2>WhatsApp button</h2>
+  <p>Search for <code>https://wa.me/971504236099</code> in each file and replace with your number, e.g. <code>https://wa.me/YOUR_NUMBER</code>.</p>
+
+  <h2>Markdown copy</h2>
+  <p>For repositories and handoffs, use <a href="README.md">README.md</a> in the same directory (opens best in an editor or on GitHub). Use this <a href="readme.html">readme.html</a> page when you need a clickable map inside the browser.</p>
+</main>
+</body>
+</html>
