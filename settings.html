@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Settings</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;text-decoration:none;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.4);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;text-decoration:none;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--b:#050810;--deep:#090d1a;--panel:#0e1530;--card:#111a35;--blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;--steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;--success:#00e87a;--warn:#ffb020;--danger:#ff3c5f;--mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;}
+body{margin:0;background:#090d1a;color:#c8d8e8;font-family:var(--mono);}
+.page-wrap{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 52px);}
+.settings-sidebar{background:#050810;border-right:1px solid rgba(26,109,255,0.12);padding:20px 0;}
+.ss-label{font-size:7px;letter-spacing:0.25em;color:rgba(143,168,200,0.4);padding:0 16px 8px;font-family:var(--mono);}
+.ss-item{display:flex;align-items:center;gap:10px;padding:9px 16px;font-size:10px;font-weight:600;letter-spacing:0.08em;color:var(--steel);cursor:pointer;border-left:2px solid transparent;transition:all 0.2s;text-decoration:none;font-family:var(--mono);}
+.ss-item:hover{color:var(--white);background:rgba(26,109,255,0.06);}
+.ss-item.active{color:var(--accent);border-left-color:var(--accent);background:rgba(0,212,255,0.06);}
+.main{padding:28px 28px 80px;overflow-y:auto;background:#090d1a;}
+.page-title{font-family:var(--head);font-size:22px;font-weight:700;color:var(--white);letter-spacing:0.08em;margin-bottom:4px;}
+.page-sub{font-size:8px;color:var(--steel);letter-spacing:0.2em;margin-bottom:24px;}
+.settings-grid{display:grid;gap:14px;}
+.settings-card{background:var(--panel);border:1px solid rgba(26,109,255,0.1);border-radius:2px;overflow:hidden;}
+.sc-head{padding:12px 18px;border-bottom:1px solid rgba(26,109,255,0.08);display:flex;align-items:center;justify-content:space-between;}
+.sc-title{font-family:var(--head);font-size:12px;font-weight:700;color:var(--white);letter-spacing:0.08em;}
+.sc-badge{font-size:7px;letter-spacing:0.15em;padding:2px 8px;border-radius:2px;font-family:var(--mono);}
+.scb-active{background:rgba(0,232,122,0.1);color:var(--success);}
+.scb-blue{background:rgba(26,109,255,0.12);color:var(--blue2);}
+.sc-body{padding:14px 18px;}
+.setting-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(26,109,255,0.06);}
+.setting-row:last-child{border:none;}
+.sr-label{font-size:10px;color:var(--white);margin-bottom:2px;}
+.sr-desc{font-size:8px;color:var(--steel);}
+.toggle{width:38px;height:20px;border-radius:10px;position:relative;cursor:pointer;transition:background 0.3s;flex-shrink:0;}
+.toggle.on{background:var(--success);}
+.toggle.off{background:rgba(143,168,200,0.2);}
+.toggle-thumb{width:14px;height:14px;border-radius:50%;background:#fff;position:absolute;top:3px;transition:left 0.3s;}
+.toggle.on .toggle-thumb{left:21px;}
+.toggle.off .toggle-thumb{left:3px;}
+.input-field{background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.2);border-radius:2px;padding:6px 10px;color:var(--white);font-family:var(--mono);font-size:9px;outline:none;transition:border-color 0.2s;width:200px;}
+.input-field:focus{border-color:var(--accent);}
+.select-field{background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.2);border-radius:2px;padding:6px 10px;color:var(--white);font-family:var(--mono);font-size:9px;outline:none;cursor:pointer;width:200px;}
+.select-field option{background:#111a35;}
+.btn{padding:6px 14px;border-radius:2px;font-family:var(--mono);font-size:8px;letter-spacing:0.1em;cursor:pointer;border:none;transition:all 0.2s;}
+.btn-primary{background:var(--blue);color:var(--white);}
+.btn-primary:hover{background:var(--blue2);}
+.btn-outline{background:transparent;color:var(--accent);border:1px solid rgba(0,212,255,0.25);}
+.user-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(26,109,255,0.06);}
+.user-row:last-child{border:none;}
+.user-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#1a6dff,#00d4ff);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0;}
+.user-name{font-size:10px;font-weight:600;color:var(--white);}
+.user-role{font-size:8px;color:var(--steel);margin-top:1px;}
+.role-badge{font-size:7px;letter-spacing:0.1em;padding:2px 8px;background:rgba(26,109,255,0.1);color:var(--blue2);border:1px solid rgba(26,109,255,0.2);border-radius:2px;}
+.save-bar{position:sticky;bottom:0;background:rgba(5,8,16,0.97);border-top:1px solid rgba(26,109,255,0.15);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px);}
+.loc-chip{background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.12);padding:5px 8px;border-radius:2px;font-size:8px;color:var(--chrome);}
+</style>
+</head>
+<body>
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="fleet.html" class="gnav-link">FLEET</a>
+    <a href="vendor.html" class="gnav-link">VENDORS</a>
+    <a href="customers.html" class="gnav-link">CUSTOMERS</a>
+    <a href="settings.html" class="gnav-link current">SETTINGS</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">CONTACT</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="settings-sidebar">
+    <div style="margin-bottom:20px;">
+      <div class="ss-label">ACCOUNT</div>
+      <a href="#" class="ss-item active" onclick="show('company',this)">🏢 Company Profile</a>
+      <a href="#" class="ss-item" onclick="show('users',this)">👥 Users &amp; Roles</a>
+      <a href="#" class="ss-item" onclick="show('notifications',this)">🔔 Notifications</a>
+    </div>
+    <div style="margin-bottom:20px;">
+      <div class="ss-label">OPERATIONS</div>
+      <a href="#" class="ss-item" onclick="show('pricing',this)">💰 Pricing Engine</a>
+      <a href="#" class="ss-item" onclick="show('vehicles',this)">🚘 Vehicle Types</a>
+      <a href="#" class="ss-item" onclick="show('locations',this)">📍 Location DB</a>
+      <a href="#" class="ss-item" onclick="show('payments',this)">💳 Payment Gateways</a>
+    </div>
+    <div>
+      <div class="ss-label">SYSTEM</div>
+      <a href="#" class="ss-item" onclick="show('integrations',this)">🔗 Integrations</a>
+      <a href="#" class="ss-item" onclick="show('security',this)">🔒 Security</a>
+      <a href="#" class="ss-item" onclick="show('billing',this)">📋 Billing &amp; Plan</a>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- COMPANY -->
+    <div id="sec-company">
+      <div class="page-title">Company Profile</div>
+      <div class="page-sub">CORE COMPANY INFORMATION · GENZ FLEETOPS UAE</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Business Information</div><div class="sc-badge scb-active">VERIFIED</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Company Name</div><div class="sr-desc">Legal registered name</div></div><input class="input-field" value="GENZ FleetOps LLC"></div>
+            <div class="setting-row"><div><div class="sr-label">Trade License</div><div class="sr-desc">UAE DED / DIFC</div></div><input class="input-field" placeholder="TL-2025-XXXXXX"></div>
+            <div class="setting-row"><div><div class="sr-label">Primary City</div><div class="sr-desc">Main operations base</div></div><select class="select-field"><option selected>Dubai</option><option>Abu Dhabi</option><option>Sharjah</option><option>Riyadh</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">WhatsApp Business</div><div class="sr-desc">Customer support line</div></div><input class="input-field" value="+971 50 423 6099"></div>
+            <div class="setting-row"><div><div class="sr-label">Website</div><div class="sr-desc">Public booking portal</div></div><input class="input-field" value="genzfleetops.com"></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Branding &amp; Localization</div><div class="sc-badge scb-blue">CUSTOMIZABLE</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Platform Display Name</div><div class="sr-desc">Shown on portal and driver app</div></div><input class="input-field" value="GENZ FleetOps"></div>
+            <div class="setting-row"><div><div class="sr-label">Currency</div><div class="sr-desc">Default pricing</div></div><select class="select-field"><option selected>AED — UAE Dirham</option><option>SAR — Saudi Riyal</option><option>USD — US Dollar</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">Timezone</div><div class="sr-desc">All timestamps and reports</div></div><select class="select-field"><option selected>Asia/Dubai (GST +4)</option><option>Asia/Riyadh (AST +3)</option></select></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- USERS -->
+    <div id="sec-users" style="display:none;">
+      <div class="page-title">Users &amp; Roles</div>
+      <div class="page-sub">8 ACCESS LEVELS · FULL ROLE-BASED CONTROL</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Team Members</div><div style="display:flex;gap:8px;"><div class="sc-badge scb-blue">8 USERS</div><button class="btn btn-primary">+ ADD USER</button></div></div>
+          <div class="sc-body">
+            <div class="user-row"><div class="user-av">SA</div><div style="flex:1;"><div class="user-name">Super Admin</div><div class="user-role">admin@genzfleetops.com</div></div><div class="role-badge">SUPER ADMIN</div></div>
+            <div class="user-row"><div class="user-av" style="background:linear-gradient(135deg,#0e1530,#1a6dff);">OP</div><div style="flex:1;"><div class="user-name">Operations Manager</div><div class="user-role">ops@genzfleetops.com</div></div><div class="role-badge">OPERATIONS</div></div>
+            <div class="user-row"><div class="user-av" style="background:linear-gradient(135deg,#111a35,#00d4ff);">FN</div><div style="flex:1;"><div class="user-name">Finance Lead</div><div class="user-role">finance@genzfleetops.com</div></div><div class="role-badge">FINANCE</div></div>
+            <div class="user-row"><div class="user-av" style="background:linear-gradient(135deg,#0e1530,#00e87a);">DR</div><div style="flex:1;"><div class="user-name">Driver Portal</div><div class="user-role">drivers@genzfleetops.com</div></div><div class="role-badge">DRIVER</div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Permission Matrix</div><div class="sc-badge scb-blue">8 ROLES</div></div>
+          <div class="sc-body">
+            <div style="overflow-x:auto;">
+              <table style="width:100%;border-collapse:collapse;font-size:9px;">
+                <thead><tr>
+                  <th style="text-align:left;padding:6px 8px;color:var(--steel);font-size:7px;letter-spacing:0.1em;border-bottom:1px solid rgba(26,109,255,0.15);">MODULE</th>
+                  <th style="text-align:center;padding:6px 4px;color:var(--steel);font-size:7px;border-bottom:1px solid rgba(26,109,255,0.15);">SUPER</th>
+                  <th style="text-align:center;padding:6px 4px;color:var(--steel);font-size:7px;border-bottom:1px solid rgba(26,109,255,0.15);">OPS</th>
+                  <th style="text-align:center;padding:6px 4px;color:var(--steel);font-size:7px;border-bottom:1px solid rgba(26,109,255,0.15);">FINANCE</th>
+                  <th style="text-align:center;padding:6px 4px;color:var(--steel);font-size:7px;border-bottom:1px solid rgba(26,109,255,0.15);">DRIVER</th>
+                </tr></thead>
+                <tbody id="perm-table"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div id="sec-notifications" style="display:none;">
+      <div class="page-title">Notifications</div>
+      <div class="page-sub">WHATSAPP · SMS · EMAIL AUTOMATION</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Customer Alerts</div><div class="sc-badge scb-active">ACTIVE</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Booking Confirmation</div><div class="sr-desc">WhatsApp + Email on booking success</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Driver Assigned Alert</div><div class="sr-desc">30 min before pickup with driver details</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Driver En Route</div><div class="sr-desc">When driver starts journey to pickup</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Trip Completed Receipt</div><div class="sr-desc">Payment summary + rating link</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Cancellation Notice</div><div class="sr-desc">With reason and refund info</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Driver Alerts</div><div class="sc-badge scb-active">ACTIVE</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">New Trip Push</div><div class="sr-desc">Firebase push via Driver App</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Trip Reassignment</div><div class="sr-desc">Alert when trip reassigned to another driver</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Document Expiry</div><div class="sr-desc">14 days before license/visa expires</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Daily Earnings Summary</div><div class="sr-desc">End of shift WhatsApp report</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRICING -->
+    <div id="sec-pricing" style="display:none;">
+      <div class="page-title">Pricing Engine</div>
+      <div class="page-sub">ROUTE PRICING · DISTANCE CALC · AUTO-FARE LOCK</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Fare Calculation</div><div class="sc-badge scb-blue">AUTO-PRICE</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Pricing Mode</div><div class="sr-desc">How fares are calculated</div></div><select class="select-field"><option>Route-Based (Fixed zones)</option><option>Distance-Based (per km)</option><option>Hybrid</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">Base Rate / km</div><div class="sr-desc">AED per kilometer driven</div></div><input class="input-field" value="3.50"></div>
+            <div class="setting-row"><div><div class="sr-label">Minimum Fare</div><div class="sr-desc">Floor price per trip</div></div><input class="input-field" value="50"></div>
+            <div class="setting-row"><div><div class="sr-label">Night Surcharge (23:00–06:00)</div><div class="sr-desc">% added to base fare</div></div><input class="input-field" value="25"></div>
+            <div class="setting-row"><div><div class="sr-label">Airport Fee (DXB / AUH)</div><div class="sr-desc">Fixed add-on per airport trip</div></div><input class="input-field" value="20"></div>
+            <div class="setting-row"><div><div class="sr-label">Salik Auto-Add</div><div class="sr-desc">Add Salik costs to fare automatically</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Vehicle Class Multipliers</div><div class="sc-badge scb-blue">5 CLASSES</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Sedan</div></div><input class="input-field" value="1.0x"></div>
+            <div class="setting-row"><div><div class="sr-label">Business</div></div><input class="input-field" value="1.5x"></div>
+            <div class="setting-row"><div><div class="sr-label">Luxury</div></div><input class="input-field" value="2.0x"></div>
+            <div class="setting-row"><div><div class="sr-label">SUV VIP</div></div><input class="input-field" value="2.5x"></div>
+            <div class="setting-row"><div><div class="sr-label">Bus 14-Pax</div></div><input class="input-field" value="4.0x"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VEHICLES -->
+    <div id="sec-vehicles" style="display:none;">
+      <div class="page-title">Vehicle Types</div>
+      <div class="page-sub">FLEET CLASS CONFIGURATION · 5 ACTIVE</div>
+      <div class="settings-card">
+        <div class="sc-head"><div class="sc-title">Active Vehicle Classes</div><button class="btn btn-primary">+ ADD CLASS</button></div>
+        <div class="sc-body">
+          <div class="setting-row"><div style="display:flex;align-items:center;gap:12px;flex:1;"><span style="font-size:1.3rem;">🚗</span><div><div class="sr-label">SEDAN</div><div class="sr-desc">Toyota Camry, Hyundai Sonata · 4 seats</div></div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div style="display:flex;align-items:center;gap:12px;flex:1;"><span style="font-size:1.3rem;">🚙</span><div><div class="sr-label">BUSINESS</div><div class="sr-desc">BMW 5-Series, Mercedes E-Class · 4 seats</div></div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div style="display:flex;align-items:center;gap:12px;flex:1;"><span style="font-size:1.3rem;">🏎</span><div><div class="sr-label">LUXURY</div><div class="sr-desc">S-Class, 7-Series, LS500 · 3 seats</div></div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div style="display:flex;align-items:center;gap:12px;flex:1;"><span style="font-size:1.3rem;">🚐</span><div><div class="sr-label">SUV VIP</div><div class="sr-desc">Cadillac Escalade, Lexus LX · 6 seats</div></div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div style="display:flex;align-items:center;gap:12px;flex:1;"><span style="font-size:1.3rem;">🚌</span><div><div class="sr-label">BUS 14-PAX</div><div class="sr-desc">Toyota HiAce, Coaster · 14 seats</div></div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOCATIONS -->
+    <div id="sec-locations" style="display:none;">
+      <div class="page-title">Location Database</div>
+      <div class="page-sub">UAE PREDEFINED LOCATIONS · GOOGLE MAPS FALLBACK</div>
+      <div class="settings-card">
+        <div class="sc-head"><div class="sc-title">UAE Premium Locations</div><div style="display:flex;gap:8px;"><div class="sc-badge scb-blue">142 LOCATIONS</div><button class="btn btn-primary">+ ADD</button></div></div>
+        <div class="sc-body">
+          <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;">
+            <span class="loc-chip">📍 DXB T1</span><span class="loc-chip">📍 DXB T2</span><span class="loc-chip">📍 DXB T3</span><span class="loc-chip">📍 AUH Airport</span><span class="loc-chip">📍 SHJ Airport</span><span class="loc-chip">📍 Burj Khalifa</span><span class="loc-chip">📍 Burj Al Arab</span><span class="loc-chip">📍 Atlantis The Palm</span><span class="loc-chip">📍 Palm Jumeirah</span><span class="loc-chip">📍 Dubai Mall</span><span class="loc-chip">📍 Mall of Emirates</span><span class="loc-chip">📍 Dubai Marina</span><span class="loc-chip">📍 DIFC</span><span class="loc-chip">📍 Downtown Dubai</span><span class="loc-chip">📍 Business Bay</span><span class="loc-chip">📍 JBR Walk</span><span class="loc-chip">📍 Dubai Frame</span><span class="loc-chip">📍 Museum of the Future</span><span class="loc-chip">📍 Abu Dhabi Corniche</span><span class="loc-chip">📍 Yas Island</span><span class="loc-chip">📍 Ferrari World</span><span class="loc-chip">📍 Warner Bros World</span>
+          </div>
+          <div class="setting-row"><div><div class="sr-label">Google Maps API Fallback</div><div class="sr-desc">Search any address not in predefined list</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div id="sec-payments" style="display:none;">
+      <div class="page-title">Payment Gateways</div>
+      <div class="page-sub">CARD · APPLE PAY · GOOGLE PAY · TABBY · PAYPAL</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Active Payment Methods</div><div class="sc-badge scb-active">5 GATEWAYS</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Credit / Debit Card</div><div class="sr-desc">Visa · Mastercard · AMEX</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label"> Apple Pay</div><div class="sr-desc">iOS and Safari users</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">G Google Pay</div><div class="sr-desc">Android users</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Tabby BNPL</div><div class="sr-desc">Buy now, pay in 4 — UAE &amp; KSA</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Tamara</div><div class="sr-desc">BNPL — UAE, KSA, Kuwait</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">PayPal</div><div class="sr-desc">International customers</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">API Credentials</div><div class="sc-badge scb-blue">ENCRYPTED</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Stripe Public Key</div></div><input class="input-field" placeholder="pk_live_••••••••" type="password"></div>
+            <div class="setting-row"><div><div class="sr-label">Stripe Secret Key</div></div><input class="input-field" placeholder="sk_live_••••••••" type="password"></div>
+            <div class="setting-row"><div><div class="sr-label">Tabby API Key</div></div><input class="input-field" placeholder="tabby_••••••••" type="password"></div>
+            <div class="setting-row"><div><div class="sr-label">Webhook Secret</div></div><input class="input-field" placeholder="whsec_••••••••" type="password"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTEGRATIONS -->
+    <div id="sec-integrations" style="display:none;">
+      <div class="page-title">Integrations</div>
+      <div class="page-sub">THIRD-PARTY CONNECTIONS · API · WEBHOOKS</div>
+      <div class="settings-card">
+        <div class="sc-head"><div class="sc-title">Connected Services</div><div class="sc-badge scb-active">6 ACTIVE</div></div>
+        <div class="sc-body">
+          <div class="setting-row"><div><div class="sr-label">WhatsApp Cloud API</div><div class="sr-desc">Customer and driver messaging automation</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">Google Maps Platform</div><div class="sr-desc">Location search, routing, distance matrix</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">Firebase Cloud Messaging</div><div class="sr-desc">Driver app push notifications</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">Twilio SMS</div><div class="sr-desc">Fallback SMS for non-WhatsApp customers</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">Supabase Realtime</div><div class="sr-desc">Live trip tracking and sync</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">Salik API</div><div class="sr-desc">Automatic toll gate tracking Dubai</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          <div class="setting-row"><div><div class="sr-label">2GIS Navigation</div><div class="sr-desc">Regional map option for drivers</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECURITY -->
+    <div id="sec-security" style="display:none;">
+      <div class="page-title">Security</div>
+      <div class="page-sub">2FA · SESSION CONTROL · UAE DATA COMPLIANCE</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Authentication</div><div class="sc-badge scb-active">SECURE</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Two-Factor Authentication</div><div class="sr-desc">Required for Super Admin and Finance</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Session Timeout</div><div class="sr-desc">Auto-logout after inactivity</div></div><select class="select-field"><option>4 Hours</option><option selected>8 Hours</option><option>24 Hours</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">IP Allowlist</div><div class="sr-desc">Restrict CRM access by IP address</div></div><div class="toggle off" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+            <div class="setting-row"><div><div class="sr-label">Full Audit Log</div><div class="sr-desc">All user actions recorded with timestamps</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Data &amp; Privacy</div><div class="sc-badge scb-blue">UAE COMPLIANT</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div><div class="sr-label">Data Residency</div><div class="sr-desc">Where data is stored</div></div><select class="select-field"><option selected>UAE (AWS ME-South-1)</option><option>Multi-Region</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">Retention Period</div><div class="sr-desc">Trip and customer data</div></div><select class="select-field"><option>1 Year</option><option selected>3 Years</option><option>7 Years</option></select></div>
+            <div class="setting-row"><div><div class="sr-label">Driver Data Encryption</div><div class="sr-desc">AES-256 at rest</div></div><div class="toggle on" onclick="tog(this)"><div class="toggle-thumb"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILLING -->
+    <div id="sec-billing" style="display:none;">
+      <div class="page-title">Billing &amp; Plan</div>
+      <div class="page-sub">SUBSCRIPTION · USAGE · INVOICES</div>
+      <div class="settings-grid">
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Current Plan</div><div class="sc-badge scb-active">ACTIVE</div></div>
+          <div class="sc-body">
+            <div style="background:rgba(26,109,255,0.08);border:1px solid rgba(26,109,255,0.2);border-radius:4px;padding:18px;text-align:center;margin-bottom:14px;">
+              <div style="font-size:7px;letter-spacing:0.2em;color:var(--steel);margin-bottom:6px;">CURRENT PLAN</div>
+              <div style="font-family:var(--head);font-size:1.8rem;font-weight:700;color:var(--white);">Enterprise</div>
+              <div style="font-size:8px;color:var(--accent);margin-top:4px;">AED 2,499 / month · Billed annually</div>
+            </div>
+            <div class="setting-row"><div class="sr-label">Includes</div><div style="font-size:8px;color:var(--success);">Unlimited bookings · 25 drivers · All modules</div></div>
+            <div class="setting-row"><div class="sr-label">Next billing</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">01 May 2026</div></div>
+            <div class="setting-row"><div class="sr-label">Billing email</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">finance@genzfleetops.com</div></div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <div class="sc-head"><div class="sc-title">Usage This Month</div><div class="sc-badge scb-blue">APR 2026</div></div>
+          <div class="sc-body">
+            <div class="setting-row"><div class="sr-label">Total Bookings</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">1,248 / unlimited</div></div>
+            <div class="setting-row"><div class="sr-label">Active Drivers</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">18 / 25 seats</div></div>
+            <div class="setting-row"><div class="sr-label">API Calls</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">84,210 / 500K</div></div>
+            <div class="setting-row"><div class="sr-label">SMS Sent</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">3,744 / 10,000</div></div>
+            <div class="setting-row"><div class="sr-label">WhatsApp Messages</div><div style="font-family:var(--mono);font-size:9px;color:var(--white);">4,992 / unlimited</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="save-bar">
+      <div style="font-size:8px;color:var(--steel);">Changes are not saved automatically — click Save before leaving</div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-outline" onclick="alert('Changes discarded.')">DISCARD</button>
+        <button class="btn btn-primary" onclick="this.textContent='SAVED';setTimeout(()=>this.textContent='SAVE CHANGES',2000)">SAVE CHANGES</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+function show(id, el) {
+  document.querySelectorAll('[id^="sec-"]').forEach(s => s.style.display = 'none');
+  document.getElementById('sec-' + id).style.display = 'block';
+  document.querySelectorAll('.ss-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  event.preventDefault();
+}
+function tog(el) {
+  el.classList.toggle('on');
+  el.classList.toggle('off');
+}
+
+// Build permissions table
+const perms = [
+  ['Bookings', 1,1,0,0],
+  ['Dispatch', 1,1,0,0],
+  ['Finance', 1,0,1,0],
+  ['Drivers', 1,1,0,0],
+  ['Fleet', 1,1,0,0],
+  ['Reports', 1,1,1,0],
+  ['Settings', 1,0,0,0],
+  ['Vendor', 1,1,0,0],
+];
+const tb = document.getElementById('perm-table');
+if(tb) perms.forEach(([label,...vals]) => {
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td style="padding:5px 8px;color:var(--chrome);border-bottom:1px solid rgba(26,109,255,0.05);">${label}</td>` +
+    vals.map(v=>`<td style="text-align:center;padding:5px 4px;border-bottom:1px solid rgba(26,109,255,0.05);color:${v?'var(--success)':'var(--danger)'}">${v?'✓':'✗'}</td>`).join('');
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>

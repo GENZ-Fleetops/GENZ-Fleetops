@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Dispatch Control</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;background:transparent;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.4);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+</style>
+</head>
+<body style="margin:0;background:#090d1a;color:#c8d8e8;">
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link current">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="fleet.html" class="gnav-link">FLEET</a>
+    <a href="vendor.html" class="gnav-link">VENDORS</a>
+    <a href="customers.html" class="gnav-link">CUSTOMERS</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="index.html" class="gnav-link">WEBSITE</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">💬 CONTACT</a>
+</nav>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --b:#050810;--deep:#090d1a;--panel:#0e1530;--card:#111a35;
+  --blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;
+  --steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;
+  --success:#00e87a;--warn:#ffb020;--danger:#ff3c5f;
+  --mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;
+}
+.wrap{background:#090d1a;border-radius:10px;border:1px solid rgba(26,109,255,0.18);overflow:hidden;font-family:var(--mono);}
+.topbar{background:#050810;border-bottom:1px solid rgba(26,109,255,0.2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:0.12em;color:var(--white);}
+.brand span{color:var(--blue2);}
+.live-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.status-chips{display:flex;gap:8px;}
+.schip{font-size:8px;letter-spacing:0.12em;padding:3px 10px;border-radius:2px;font-family:var(--mono);}
+.sc-on{background:rgba(0,232,122,0.12);color:var(--success);border:1px solid rgba(0,232,122,0.25);}
+.sc-blue{background:rgba(26,109,255,0.12);color:var(--blue2);border:1px solid rgba(26,109,255,0.25);}
+.sc-warn{background:rgba(255,176,32,0.12);color:var(--warn);border:1px solid rgba(255,176,32,0.25);}
+.grid3{display:grid;grid-template-columns:260px 1fr 240px;min-height:560px;}
+.sidebar{background:#050810;border-right:1px solid rgba(26,109,255,0.12);display:flex;flex-direction:column;}
+.sidebar-head{padding:12px 14px;border-bottom:1px solid rgba(26,109,255,0.1);font-size:8px;letter-spacing:0.2em;color:var(--accent);}
+.driver-card{padding:10px 14px;border-bottom:1px solid rgba(26,109,255,0.07);cursor:pointer;transition:background 0.2s;}
+.driver-card:hover{background:rgba(26,109,255,0.06);}
+.driver-card.selected{background:rgba(26,109,255,0.1);border-left:2px solid var(--blue);}
+.dc-top{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.av{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;}
+.av-on{background:rgba(0,232,122,0.15);color:var(--success);border:1px solid rgba(0,232,122,0.3);}
+.av-trip{background:rgba(26,109,255,0.2);color:var(--blue2);border:1px solid rgba(26,109,255,0.35);}
+.av-idle{background:rgba(143,168,200,0.1);color:var(--steel);border:1px solid rgba(143,168,200,0.2);}
+.av-warn{background:rgba(255,176,32,0.15);color:var(--warn);border:1px solid rgba(255,176,32,0.3);}
+.dc-name{font-family:var(--head);font-size:11px;font-weight:700;color:var(--white);}
+.dc-plate{font-size:8px;color:var(--steel);}
+.dc-status{font-size:8px;margin-left:auto;}
+.st-trip{color:var(--blue2);}
+.st-avail{color:var(--success);}
+.st-idle{color:var(--steel);}
+.st-warn{color:var(--warn);}
+.dc-route{font-size:9px;color:var(--steel);line-height:1.4;}
+.dc-eta{font-size:8px;color:var(--accent);margin-top:2px;}
+.map-area{position:relative;background:#070d20;overflow:hidden;}
+.map-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(26,109,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(26,109,255,0.04) 1px,transparent 1px);background-size:40px 40px;}
+.map-svg{width:100%;height:100%;}
+.map-overlay{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:8px;}
+.map-badge{background:rgba(5,8,16,0.88);border:1px solid rgba(26,109,255,0.25);padding:6px 12px;border-radius:2px;font-size:8px;letter-spacing:0.15em;color:var(--steel);}
+.map-badge b{color:var(--white);}
+.map-bottom{position:absolute;bottom:12px;left:12px;right:12px;display:flex;gap:8px;}
+.map-ctrl{background:rgba(5,8,16,0.88);border:1px solid rgba(26,109,255,0.2);padding:6px 14px;border-radius:2px;font-size:8px;letter-spacing:0.12em;color:var(--steel);cursor:pointer;}
+.map-ctrl:hover{color:var(--accent);border-color:rgba(0,212,255,0.3);}
+.right-panel{border-left:1px solid rgba(26,109,255,0.12);background:#050810;display:flex;flex-direction:column;}
+.rp-head{padding:10px 14px;border-bottom:1px solid rgba(26,109,255,0.1);font-size:8px;letter-spacing:0.2em;color:var(--accent);}
+.trip-detail{padding:14px;}
+.td-booking{font-family:var(--head);font-size:16px;font-weight:700;color:var(--blue2);letter-spacing:0.08em;margin-bottom:10px;}
+.td-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(26,109,255,0.06);font-size:9px;}
+.td-label{color:var(--steel);}
+.td-val{color:var(--white);}
+.td-val.accent{color:var(--accent);}
+.td-val.success{color:var(--success);}
+.td-val.warn{color:var(--warn);}
+.route-visual{margin:14px 0;}
+.rv-label{font-size:8px;letter-spacing:0.15em;color:var(--steel);margin-bottom:8px;}
+.rv-from,.rv-to{font-size:9px;color:var(--white);padding:6px 10px;background:rgba(26,109,255,0.08);border-left:2px solid var(--blue);margin-bottom:4px;}
+.rv-arrow{text-align:center;font-size:8px;color:var(--steel);padding:2px 0;}
+.rv-to{border-color:var(--accent);}
+.progress-section{margin:12px 0;}
+.prog-label{font-size:8px;letter-spacing:0.15em;color:var(--steel);margin-bottom:6px;display:flex;justify-content:space-between;}
+.prog-track{height:4px;background:rgba(26,109,255,0.1);border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--accent));border-radius:2px;transition:width 1s ease;}
+.action-btns{padding:14px;border-top:1px solid rgba(26,109,255,0.08);display:flex;flex-direction:column;gap:8px;margin-top:auto;}
+.ab{padding:8px 12px;border-radius:2px;font-size:8px;letter-spacing:0.12em;font-family:var(--mono);cursor:pointer;border:none;font-weight:700;width:100%;text-align:center;}
+.ab-primary{background:var(--blue);color:var(--white);}
+.ab-danger{background:rgba(255,60,95,0.15);color:var(--danger);border:1px solid rgba(255,60,95,0.25);}
+.ab-outline{background:transparent;color:var(--accent);border:1px solid rgba(0,212,255,0.25);}
+.mini-kpis{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(26,109,255,0.08);}
+.mk{background:#050810;padding:10px 14px;}
+.mk-label{font-size:7px;letter-spacing:0.15em;color:var(--steel);margin-bottom:4px;}
+.mk-val{font-family:var(--head);font-size:18px;font-weight:700;color:var(--white);}
+.mk-val span{font-size:10px;color:var(--steel);}
+</style>
+
+<h2 class="sr-only">GENZ FleetOps Dispatch Module — real-time driver assignment and trip monitoring across Dubai fleet</h2>
+
+<div class="wrap">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand"><span>GENZ</span> FleetOps™</div>
+      <div style="width:1px;height:14px;background:rgba(26,109,255,0.25);"></div>
+      <div style="font-size:8px;letter-spacing:0.2em;color:var(--steel);">DISPATCH COMMAND</div>
+      <div style="display:flex;align-items:center;gap:5px;"><div class="live-dot"></div><span style="font-size:8px;color:var(--success);">LIVE</span></div>
+    </div>
+    <div class="status-chips">
+      <div class="schip sc-on">6 ON TRIP</div>
+      <div class="schip sc-blue">5 AVAILABLE</div>
+      <div class="schip sc-warn">1 MAINTENANCE</div>
+    </div>
+  </div>
+
+  <div class="mini-kpis">
+    <div class="mk"><div class="mk-label">ACTIVE TRIPS</div><div class="mk-val">6<span>/12</span></div></div>
+    <div class="mk"><div class="mk-label">FLEET ON ROAD</div><div class="mk-val">11<span> units</span></div></div>
+    <div class="mk"><div class="mk-label">AVG ETA</div><div class="mk-val">14<span> min</span></div></div>
+    <div class="mk"><div class="mk-label">UNASSIGNED</div><div class="mk-val" style="color:var(--warn);">1<span> pending</span></div></div>
+  </div>
+
+  <div class="grid3">
+    <div class="sidebar">
+      <div class="sidebar-head">DRIVER ROSTER — 12 UNITS</div>
+
+      <div class="driver-card selected" onclick="selectDriver(this,'GFO-20490','Khalid Mohammed','DXB A 14529','Mercedes S-Class','DXB T3','Palm Atlantis','62%','8 min','AED 185','ON TRIP')">
+        <div class="dc-top">
+          <div class="av av-trip">KM</div>
+          <div><div class="dc-name">Khalid Mohammed</div><div class="dc-plate">DXB A 14529 · S-Class</div></div>
+          <div class="dc-status st-trip">● TRIP</div>
+        </div>
+        <div class="dc-route">DXB T3 → Palm Atlantis</div>
+        <div class="dc-eta">ETA 8 min · AED 185</div>
+      </div>
+
+      <div class="driver-card" onclick="selectDriver(this,'GFO-20489','Ahmed Al Rashid','DXB P 77812','BMW 7-Series','DIFC','JBR Walk','45%','12 min','AED 95','ON TRIP')">
+        <div class="dc-top">
+          <div class="av av-trip">AR</div>
+          <div><div class="dc-name">Ahmed Al Rashid</div><div class="dc-plate">DXB P 77812 · BMW 7</div></div>
+          <div class="dc-status st-trip">● TRIP</div>
+        </div>
+        <div class="dc-route">DIFC → JBR Walk</div>
+        <div class="dc-eta">ETA 12 min · AED 95</div>
+      </div>
+
+      <div class="driver-card" onclick="selectDriver(this,'GFO-20488','Yusuf Tamimi','DXB K 33401','Toyota HiAce','Burj Khalifa','Abu Dhabi Int. Airport','28%','41 min','AED 320','ON TRIP')">
+        <div class="dc-top">
+          <div class="av av-trip">YT</div>
+          <div><div class="dc-name">Yusuf Tamimi</div><div class="dc-plate">DXB K 33401 · HiAce</div></div>
+          <div class="dc-status st-trip">● TRIP</div>
+        </div>
+        <div class="dc-route">Burj Khalifa → AUH Airport</div>
+        <div class="dc-eta">ETA 41 min · AED 320</div>
+      </div>
+
+      <div class="driver-card" onclick="selectDriver(this,'—','Salim Rahman','DXB M 44210','Cadillac Escalade','—','—','0%','—','—','AVAILABLE')">
+        <div class="dc-top">
+          <div class="av av-on">SR</div>
+          <div><div class="dc-name">Salim Rahman</div><div class="dc-plate">DXB M 44210 · Escalade</div></div>
+          <div class="dc-status st-avail">◈ FREE</div>
+        </div>
+        <div class="dc-route" style="color:var(--success);">Available for assignment</div>
+        <div class="dc-eta" style="color:var(--steel);">Last trip 14:20 · Marina</div>
+      </div>
+
+      <div class="driver-card" onclick="selectDriver(this,'GFO-20491','Omar Hassan','DXB R 55901','Lexus LX600','Business Bay','DXB T1','15%','28 min','AED 140','ON TRIP')">
+        <div class="dc-top">
+          <div class="av av-trip">OH</div>
+          <div><div class="dc-name">Omar Hassan</div><div class="dc-plate">DXB R 55901 · Lexus LX</div></div>
+          <div class="dc-status st-trip">● TRIP</div>
+        </div>
+        <div class="dc-route">Business Bay → DXB T1</div>
+        <div class="dc-eta">ETA 28 min · AED 140</div>
+      </div>
+
+      <div class="driver-card" onclick="selectDriver(this,'—','Ravi Nair','DXB T 12345','Toyota Camry','—','—','0%','—','—','AVAILABLE')">
+        <div class="dc-top">
+          <div class="av av-on">RN</div>
+          <div><div class="dc-name">Ravi Nair</div><div class="dc-plate">DXB T 12345 · Camry</div></div>
+          <div class="dc-status st-avail">◈ FREE</div>
+        </div>
+        <div class="dc-route" style="color:var(--success);">Available for assignment</div>
+        <div class="dc-eta" style="color:var(--steel);">Standing by · Downtown</div>
+      </div>
+
+      <div class="driver-card">
+        <div class="dc-top">
+          <div class="av av-warn">FM</div>
+          <div><div class="dc-name">Farhan Malik</div><div class="dc-plate">DXB M 90211 · Escalade</div></div>
+          <div class="dc-status st-warn">⚠ MAINT</div>
+        </div>
+        <div class="dc-route" style="color:var(--warn);">Vehicle in service — Al Quoz</div>
+        <div class="dc-eta" style="color:var(--steel);">Back 18:00 est.</div>
+      </div>
+    </div>
+
+    <div class="map-area">
+      <div class="map-grid"></div>
+      <svg class="map-svg" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto"><path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(0,212,255,0.6)"/></marker>
+        </defs>
+
+        <rect x="0" y="0" width="480" height="480" fill="#070d20"/>
+        <rect x="30" y="30" width="420" height="420" fill="none" stroke="rgba(26,109,255,0.06)" stroke-width="1"/>
+
+        <path d="M60 240 L420 240" stroke="rgba(26,109,255,0.06)" stroke-width="0.5"/>
+        <path d="M240 60 L240 420" stroke="rgba(26,109,255,0.06)" stroke-width="0.5"/>
+        <path d="M60 160 L420 160 M60 320 L420 320" stroke="rgba(26,109,255,0.04)" stroke-width="0.5"/>
+        <path d="M160 60 L160 420 M320 60 L320 420" stroke="rgba(26,109,255,0.04)" stroke-width="0.5"/>
+
+        <path d="M80 200 Q160 180 240 160 Q320 140 380 120" stroke="rgba(26,109,255,0.15)" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+        <path d="M100 300 Q180 280 260 260 Q340 240 400 300" stroke="rgba(26,109,255,0.1)" stroke-width="1.5" fill="none" stroke-dasharray="3,3"/>
+        <path d="M120 240 Q200 220 300 200 Q380 190 420 200" stroke="rgba(26,109,255,0.08)" stroke-width="1.5" fill="none"/>
+
+        <text x="82" y="196" fill="rgba(143,168,200,0.4)" font-size="7" font-family="monospace">SHEIKH ZAYED RD</text>
+        <text x="82" y="296" fill="rgba(143,168,200,0.3)" font-size="7" font-family="monospace">AL KHAIL RD</text>
+
+        <rect x="55" y="148" width="50" height="24" rx="2" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.2)" stroke-width="0.5"/>
+        <text x="80" y="160" fill="rgba(0,212,255,0.7)" font-size="7" font-family="monospace" text-anchor="middle">DXB T3</text>
+        <text x="80" y="168" fill="rgba(143,168,200,0.5)" font-size="6" font-family="monospace" text-anchor="middle">AIRPORT</text>
+
+        <rect x="280" y="72" width="56" height="24" rx="2" fill="rgba(0,212,255,0.06)" stroke="rgba(0,212,255,0.2)" stroke-width="0.5"/>
+        <text x="308" y="84" fill="rgba(0,212,255,0.7)" font-size="7" font-family="monospace" text-anchor="middle">PALM</text>
+        <text x="308" y="92" fill="rgba(143,168,200,0.5)" font-size="6" font-family="monospace" text-anchor="middle">ATLANTIS</text>
+
+        <rect x="190" y="285" width="44" height="22" rx="2" fill="rgba(26,109,255,0.08)" stroke="rgba(26,109,255,0.2)" stroke-width="0.5"/>
+        <text x="212" y="298" fill="rgba(143,168,200,0.6)" font-size="6" font-family="monospace" text-anchor="middle">DIFC</text>
+
+        <rect x="85" y="340" width="44" height="22" rx="2" fill="rgba(26,109,255,0.08)" stroke="rgba(26,109,255,0.2)" stroke-width="0.5"/>
+        <text x="107" y="353" fill="rgba(143,168,200,0.6)" font-size="6" font-family="monospace" text-anchor="middle">JBR</text>
+
+        <rect x="340" y="280" width="60" height="22" rx="2" fill="rgba(26,109,255,0.08)" stroke="rgba(26,109,255,0.2)" stroke-width="0.5"/>
+        <text x="370" y="293" fill="rgba(143,168,200,0.6)" font-size="6" font-family="monospace" text-anchor="middle">BUSINESS BAY</text>
+
+        <rect x="390" y="148" width="44" height="22" rx="2" fill="rgba(26,109,255,0.08)" stroke="rgba(26,109,255,0.2)" stroke-width="0.5"/>
+        <text x="412" y="161" fill="rgba(143,168,200,0.6)" font-size="6" font-family="monospace" text-anchor="middle">DXB T1</text>
+
+        <path d="M130 162 Q200 130 280 96" stroke="rgba(0,212,255,0.5)" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+        <path d="M234 296 Q180 320 130 345" stroke="rgba(26,109,255,0.5)" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+        <path d="M362 291 Q380 230 410 161" stroke="rgba(26,109,255,0.4)" stroke-width="1.5" fill="none" stroke-dasharray="5,3" marker-end="url(#arrow)"/>
+
+        <g id="pin-km" style="cursor:pointer;">
+          <circle cx="180" cy="150" r="10" fill="rgba(26,109,255,0.2)" stroke="#1a6dff" stroke-width="1.5"/>
+          <circle cx="180" cy="150" r="4" fill="#1a6dff"/>
+          <text x="180" y="146" fill="#00d4ff" font-size="7" font-family="monospace" text-anchor="middle">KM</text>
+          <text x="180" y="167" fill="rgba(0,212,255,0.8)" font-size="7" font-family="monospace" text-anchor="middle">● 8 MIN</text>
+        </g>
+
+        <g id="pin-ar">
+          <circle cx="170" cy="316" r="10" fill="rgba(26,109,255,0.2)" stroke="#1a6dff" stroke-width="1.5"/>
+          <circle cx="170" cy="316" r="4" fill="#1a6dff"/>
+          <text x="170" y="312" fill="#00d4ff" font-size="7" font-family="monospace" text-anchor="middle">AR</text>
+          <text x="170" y="333" fill="rgba(0,212,255,0.8)" font-size="7" font-family="monospace" text-anchor="middle">● 12 MIN</text>
+        </g>
+
+        <g id="pin-oh">
+          <circle cx="355" cy="255" r="10" fill="rgba(26,109,255,0.2)" stroke="#1a6dff" stroke-width="1.5"/>
+          <circle cx="355" cy="255" r="4" fill="#1a6dff"/>
+          <text x="355" y="251" fill="#00d4ff" font-size="7" font-family="monospace" text-anchor="middle">OH</text>
+          <text x="355" y="272" fill="rgba(0,212,255,0.8)" font-size="7" font-family="monospace" text-anchor="middle">● 28 MIN</text>
+        </g>
+
+        <g id="pin-sr">
+          <circle cx="290" cy="230" r="10" fill="rgba(0,232,122,0.15)" stroke="#00e87a" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <circle cx="290" cy="230" r="4" fill="#00e87a"/>
+          <text x="290" y="226" fill="#00e87a" font-size="7" font-family="monospace" text-anchor="middle">SR</text>
+          <text x="290" y="247" fill="rgba(0,232,122,0.8)" font-size="7" font-family="monospace" text-anchor="middle">◈ FREE</text>
+        </g>
+
+        <g id="pin-rn">
+          <circle cx="240" cy="290" r="10" fill="rgba(0,232,122,0.15)" stroke="#00e87a" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <circle cx="240" cy="290" r="4" fill="#00e87a"/>
+          <text x="240" y="286" fill="#00e87a" font-size="7" font-family="monospace" text-anchor="middle">RN</text>
+          <text x="240" y="307" fill="rgba(0,232,122,0.8)" font-size="7" font-family="monospace" text-anchor="middle">◈ FREE</text>
+        </g>
+
+        <rect x="10" y="420" width="140" height="52" rx="2" fill="rgba(5,8,16,0.9)" stroke="rgba(26,109,255,0.2)" stroke-width="0.5"/>
+        <text x="20" y="432" fill="rgba(143,168,200,0.6)" font-size="7" font-family="monospace">LEGEND</text>
+        <circle cx="22" cy="444" r="4" fill="rgba(26,109,255,0.3)" stroke="#1a6dff" stroke-width="1"/>
+        <text x="30" y="447" fill="rgba(143,168,200,0.8)" font-size="7" font-family="monospace">ON TRIP</text>
+        <circle cx="22" cy="460" r="4" fill="rgba(0,232,122,0.3)" stroke="#00e87a" stroke-width="1" stroke-dasharray="2,1"/>
+        <text x="30" y="463" fill="rgba(143,168,200,0.8)" font-size="7" font-family="monospace">AVAILABLE</text>
+        <line x1="80" y1="441" x2="100" y2="441" stroke="rgba(0,212,255,0.5)" stroke-width="1.5" stroke-dasharray="4,2"/>
+        <text x="105" y="444" fill="rgba(143,168,200,0.8)" font-size="7" font-family="monospace">ROUTE</text>
+      </svg>
+
+      <div class="map-overlay">
+        <div class="map-badge"><b>DUBAI</b> · LIVE GPS FEED</div>
+        <div class="map-badge" id="map-time">16:42:07 GST</div>
+      </div>
+      <div class="map-bottom">
+        <div class="map-ctrl" onclick="window.location.href='https://maps.google.com'">+ Google Maps Integration ↗</div>
+        <div class="map-ctrl">SATELLITE</div>
+        <div class="map-ctrl">TRAFFIC</div>
+        <div class="map-ctrl" style="margin-left:auto;">ZOOM ⊕</div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div class="rp-head">TRIP DETAIL</div>
+      <div class="trip-detail">
+        <div class="td-booking" id="rp-booking">GFO-20490</div>
+        <div class="td-row"><div class="td-label">DRIVER</div><div class="td-val" id="rp-driver">Khalid Mohammed</div></div>
+        <div class="td-row"><div class="td-label">VEHICLE</div><div class="td-val" id="rp-vehicle">Mercedes S-Class</div></div>
+        <div class="td-row"><div class="td-label">PLATE</div><div class="td-val" id="rp-plate">DXB A 14529</div></div>
+        <div class="td-row"><div class="td-label">FARE</div><div class="td-val accent" id="rp-fare">AED 185</div></div>
+        <div class="td-row"><div class="td-label">STATUS</div><div class="td-val success" id="rp-status">ON TRIP</div></div>
+        <div class="route-visual">
+          <div class="rv-label">ROUTE</div>
+          <div class="rv-from" id="rp-from">DXB T3</div>
+          <div class="rv-arrow">↓</div>
+          <div class="rv-to" id="rp-to">Palm Atlantis</div>
+        </div>
+        <div class="progress-section">
+          <div class="prog-label"><span>TRIP PROGRESS</span><span id="rp-pct">62%</span></div>
+          <div class="prog-track"><div class="prog-fill" id="rp-prog" style="width:62%;"></div></div>
+        </div>
+        <div class="td-row"><div class="td-label">ETA</div><div class="td-val accent" id="rp-eta">8 min</div></div>
+      </div>
+      <div class="action-btns">
+        <div class="ab ab-outline" onclick="window.open('https://wa.me/971504236099','_blank')">Send Driver Alert</div>
+        <div class="ab ab-primary" onclick="window.location.href='crm.html'">Reassign Driver ↗</div>
+        <div class="ab ab-danger">Cancel Trip</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function selectDriver(el,booking,name,plate,vehicle,from,to,pct,eta,fare,status){
+  document.querySelectorAll('.driver-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('rp-booking').textContent=booking==='—'?'— UNASSIGNED':booking;
+  document.getElementById('rp-driver').textContent=name;
+  document.getElementById('rp-plate').textContent=plate;
+  document.getElementById('rp-vehicle').textContent=vehicle;
+  document.getElementById('rp-fare').textContent=fare==='—'?'—':fare;
+  document.getElementById('rp-from').textContent=from==='—'?'Not assigned':from;
+  document.getElementById('rp-to').textContent=to==='—'?'—':to;
+  document.getElementById('rp-pct').textContent=pct;
+  document.getElementById('rp-prog').style.width=pct;
+  document.getElementById('rp-eta').textContent=eta==='—'?'—':eta;
+  const sv=document.getElementById('rp-status');
+  sv.textContent=status;
+  sv.className='td-val '+(status==='ON TRIP'?'success':status==='AVAILABLE'?'accent':'warn');
+}
+function tick(){
+  const n=new Date();
+  const el=document.getElementById('map-time');
+  if(el)el.textContent=n.toTimeString().slice(0,8)+' GST';
+}
+tick();setInterval(tick,1000);
+</script>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Driver App</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;background:transparent;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.4);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+</style>
+</head>
+<body style="margin:0;background:#090d1a;color:#c8d8e8;">
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link current">DRIVER APP</a>
+    <a href="fleet.html" class="gnav-link">FLEET</a>
+    <a href="vendor.html" class="gnav-link">VENDORS</a>
+    <a href="customers.html" class="gnav-link">CUSTOMERS</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="index.html" class="gnav-link">WEBSITE</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">💬 CONTACT</a>
+</nav>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --b:#050810;--deep:#090d1a;--panel:#0e1530;--card:#111a35;
+  --blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;
+  --steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;
+  --success:#00e87a;--warn:#ffb020;--danger:#ff3c5f;
+  --mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;
+}
+.scene{display:flex;gap:24px;padding:24px;background:rgba(26,109,255,0.03);justify-content:center;flex-wrap:wrap;}
+.phone{width:260px;background:#050810;border-radius:28px;border:6px solid #111a35;overflow:hidden;position:relative;box-shadow:0 0 0 1px rgba(26,109,255,0.3);}
+.phone-bar{height:28px;background:#050810;display:flex;align-items:center;justify-content:space-between;padding:0 16px;flex-shrink:0;}
+.pb-time{font-size:10px;font-weight:700;color:var(--white);font-family:var(--head);}
+.pb-icons{font-size:9px;color:var(--steel);display:flex;gap:4px;align-items:center;}
+.notch{width:70px;height:14px;background:#050810;border-radius:0 0 10px 10px;margin:0 auto;}
+.phone-screen{background:#090d1a;min-height:520px;display:flex;flex-direction:column;}
+.app-header{padding:14px 16px 10px;display:flex;align-items:center;justify-content:space-between;}
+.ah-brand{font-family:var(--head);font-size:14px;font-weight:700;color:var(--white);letter-spacing:0.08em;}
+.ah-brand span{color:var(--blue2);}
+.driver-status{display:flex;align-items:center;gap:5px;font-size:8px;font-family:var(--mono);}
+.ds-dot{width:6px;height:6px;border-radius:50%;animation:blink 1.4s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.status-bar{padding:8px 16px;display:flex;align-items:center;gap:8px;background:rgba(0,232,122,0.08);border-top:1px solid rgba(0,232,122,0.15);border-bottom:1px solid rgba(0,232,122,0.15);}
+.sb-label{font-size:8px;font-family:var(--mono);letter-spacing:0.15em;color:var(--success);}
+.sb-val{font-family:var(--head);font-size:12px;font-weight:700;color:var(--white);}
+.toggle-area{display:flex;align-items:center;margin-left:auto;gap:6px;font-size:8px;font-family:var(--mono);color:var(--steel);}
+.toggle{width:32px;height:16px;border-radius:8px;background:var(--success);position:relative;cursor:pointer;}
+.toggle-thumb{width:12px;height:12px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;transition:right 0.2s;}
+.trip-card{margin:12px;border-radius:8px;border:1px solid rgba(26,109,255,0.3);background:var(--card);overflow:hidden;}
+.tc-header{padding:10px 12px;background:rgba(26,109,255,0.12);display:flex;align-items:center;justify-content:space-between;}
+.tc-bid{font-family:var(--mono);font-size:8px;color:var(--blue2);}
+.tc-fare{font-family:var(--head);font-size:16px;font-weight:700;color:var(--white);}
+.tc-body{padding:10px 12px;}
+.tc-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;}
+.tc-icon{width:16px;height:16px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;margin-top:1px;}
+.tc-loc{font-size:9px;color:var(--chrome);line-height:1.4;}
+.tc-label{font-size:7px;color:var(--steel);font-family:var(--mono);}
+.tc-connector{width:1px;height:12px;background:rgba(26,109,255,0.3);margin-left:7px;margin-bottom:4px;}
+.tc-meta{display:flex;gap:10px;padding:8px 0;border-top:1px solid rgba(26,109,255,0.1);margin-top:4px;}
+.tc-m{text-align:center;flex:1;}
+.tc-m-val{font-family:var(--head);font-size:12px;font-weight:700;color:var(--white);}
+.tc-m-lbl{font-size:7px;color:var(--steel);font-family:var(--mono);}
+.action-row{display:flex;gap:8px;padding:0 12px 12px;}
+.btn-decline{flex:1;padding:10px;background:rgba(255,60,95,0.1);border:1px solid rgba(255,60,95,0.25);border-radius:6px;font-family:var(--head);font-size:12px;font-weight:700;color:var(--danger);cursor:pointer;text-align:center;}
+.btn-accept{flex:2;padding:10px;background:var(--success);border:none;border-radius:6px;font-family:var(--head);font-size:12px;font-weight:700;color:#050810;cursor:pointer;text-align:center;animation:glowAccept 2s ease-in-out infinite;}
+@keyframes glowAccept{0%,100%{opacity:1}50%{opacity:0.85}}
+.active-trip-card{margin:12px;border-radius:8px;border:1px solid rgba(0,232,122,0.3);background:rgba(0,232,122,0.05);overflow:hidden;}
+.atc-head{padding:10px 12px;background:rgba(0,232,122,0.1);display:flex;justify-content:space-between;align-items:center;}
+.atc-status{font-size:8px;font-family:var(--mono);color:var(--success);}
+.atc-bid{font-size:8px;font-family:var(--mono);color:var(--steel);}
+.atc-body{padding:12px;}
+.atc-cust{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid rgba(0,232,122,0.1);}
+.cust-av{width:36px;height:36px;border-radius:50%;background:rgba(26,109,255,0.2);border:1px solid rgba(26,109,255,0.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--blue2);font-family:var(--head);}
+.cust-name{font-family:var(--head);font-size:13px;font-weight:700;color:var(--white);}
+.cust-phone{font-size:8px;color:var(--steel);font-family:var(--mono);}
+.call-btn{margin-left:auto;width:28px;height:28px;border-radius:50%;background:rgba(0,232,122,0.15);border:1px solid rgba(0,232,122,0.3);display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;}
+.prog-section{margin-bottom:10px;}
+.prog-label{display:flex;justify-content:space-between;font-size:8px;font-family:var(--mono);color:var(--steel);margin-bottom:6px;}
+.prog-bar{height:5px;background:rgba(0,232,122,0.1);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;background:var(--success);border-radius:3px;}
+.nav-buttons{display:flex;gap:6px;margin-bottom:10px;}
+.nb{flex:1;padding:8px 6px;border-radius:6px;border:1px solid rgba(26,109,255,0.2);background:rgba(26,109,255,0.06);font-size:8px;font-family:var(--mono);color:var(--steel);text-align:center;cursor:pointer;}
+.nb:hover{color:var(--accent);border-color:rgba(0,212,255,0.3);}
+.complete-btn{width:100%;padding:12px;background:var(--blue);border:none;border-radius:6px;font-family:var(--head);font-size:13px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:0.08em;}
+.today-summary{margin:0 12px 12px;background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.15);border-radius:8px;padding:12px;}
+.ts-head{font-size:8px;font-family:var(--mono);letter-spacing:0.15em;color:var(--steel);margin-bottom:10px;}
+.ts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+.ts-item{text-align:center;}
+.ts-val{font-family:var(--head);font-size:16px;font-weight:700;color:var(--white);}
+.ts-lbl{font-size:7px;font-family:var(--mono);color:var(--steel);margin-top:2px;}
+.bottom-nav{display:flex;border-top:1px solid rgba(26,109,255,0.15);background:#050810;}
+.bn-item{flex:1;padding:10px 6px;text-align:center;font-size:7px;font-family:var(--mono);color:var(--steel);cursor:pointer;}
+.bn-item.active{color:var(--accent);}
+.bn-icon{font-size:14px;margin-bottom:3px;}
+.phone-label{text-align:center;margin-top:10px;font-size:9px;font-family:var(--mono);letter-spacing:0.15em;color:var(--steel);}
+</style>
+
+<h2 class="sr-only">GENZ FleetOps Driver Mobile App — two phone screens showing incoming trip acceptance and active trip navigation views</h2>
+
+<div class="scene">
+
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone">
+      <div class="phone-bar">
+        <div class="pb-time">16:42</div>
+        <div class="notch" style="position:absolute;left:50%;transform:translateX(-50%);top:0;"></div>
+        <div class="pb-icons"><span>●●●</span><span>WiFi</span><span style="color:var(--success);">92%</span></div>
+      </div>
+      <div class="phone-screen">
+        <div class="app-header">
+          <div class="ah-brand"><span>GENZ</span> Driver</div>
+          <div class="driver-status"><div class="ds-dot" style="background:var(--success);"></div><span style="font-family:var(--mono);font-size:8px;color:var(--success);">ONLINE</span></div>
+        </div>
+
+        <div class="status-bar">
+          <div>
+            <div class="sb-label">DRIVER STATUS</div>
+            <div class="sb-val">Khalid Mohammed</div>
+          </div>
+          <div class="toggle-area">
+            ONLINE
+            <div class="toggle"><div class="toggle-thumb"></div></div>
+          </div>
+        </div>
+
+        <div style="padding:12px 12px 4px;">
+          <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;color:var(--accent);display:flex;align-items:center;gap:6px;animation:blink 1.5s infinite;">
+            <div style="width:5px;height:5px;border-radius:50%;background:var(--accent);"></div>NEW TRIP REQUEST
+          </div>
+        </div>
+
+        <div class="trip-card">
+          <div class="tc-header">
+            <div class="tc-bid">GFO-20492</div>
+            <div class="tc-fare">AED 210</div>
+          </div>
+          <div class="tc-body">
+            <div class="tc-row">
+              <div class="tc-icon" style="background:rgba(26,109,255,0.15);">A</div>
+              <div>
+                <div class="tc-label">PICKUP</div>
+                <div class="tc-loc">Dubai International Airport T3<br><span style="color:var(--blue2);">Your location: 4 min away</span></div>
+              </div>
+            </div>
+            <div class="tc-connector"></div>
+            <div class="tc-row">
+              <div class="tc-icon" style="background:rgba(0,212,255,0.15);">B</div>
+              <div>
+                <div class="tc-label">DROP</div>
+                <div class="tc-loc">Atlantis The Palm, Dubai</div>
+              </div>
+            </div>
+            <div class="tc-meta">
+              <div class="tc-m"><div class="tc-m-val">32km</div><div class="tc-m-lbl">DISTANCE</div></div>
+              <div class="tc-m"><div class="tc-m-val">38m</div><div class="tc-m-lbl">EST. TIME</div></div>
+              <div class="tc-m"><div class="tc-m-val">LUXURY</div><div class="tc-m-lbl">VEHICLE</div></div>
+              <div class="tc-m"><div class="tc-m-val" style="color:var(--success);">1 PAX</div><div class="tc-m-lbl">PASSENGERS</div></div>
+            </div>
+          </div>
+          <div class="action-row">
+            <div class="btn-decline" onclick="alert('Trip declined. System will auto-reassign.')" >DECLINE</div>
+            <div class="btn-accept" onclick="this.textContent='✓ TRIP ACCEPTED';this.style.background='#1a6dff';setTimeout(function(){window.location.href='dispatch.html'},1200);" >✓ ACCEPT TRIP</div>
+          </div>
+        </div>
+
+        <div class="today-summary">
+          <div class="ts-head">TODAY'S SUMMARY</div>
+          <div class="ts-grid">
+            <div class="ts-item"><div class="ts-val">7</div><div class="ts-lbl">TRIPS</div></div>
+            <div class="ts-item"><div class="ts-val" style="color:var(--success);">AED 420</div><div class="ts-lbl">EARNED</div></div>
+            <div class="ts-item"><div class="ts-val" style="color:var(--accent);">4.9★</div><div class="ts-lbl">RATING</div></div>
+          </div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="bn-item active"><div class="bn-icon">🏠</div>HOME</div>
+          <div class="bn-item"><div class="bn-icon">📋</div>TRIPS</div>
+          <div class="bn-item"><div class="bn-icon">💰</div>EARNINGS</div>
+          <div class="bn-item"><div class="bn-icon">👤</div>PROFILE</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">INCOMING TRIP VIEW</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <div class="phone">
+      <div class="phone-bar">
+        <div class="pb-time">16:51</div>
+        <div class="notch" style="position:absolute;left:50%;transform:translateX(-50%);top:0;"></div>
+        <div class="pb-icons"><span>●●●</span><span>GPS</span><span style="color:var(--success);">88%</span></div>
+      </div>
+      <div class="phone-screen">
+        <div class="app-header">
+          <div class="ah-brand"><span>GENZ</span> Driver</div>
+          <div style="font-size:8px;font-family:var(--mono);color:var(--success);">● ON TRIP</div>
+        </div>
+
+        <div class="active-trip-card">
+          <div class="atc-head">
+            <div class="atc-status">● ACTIVE TRIP</div>
+            <div class="atc-bid">GFO-20492 · AED 210</div>
+          </div>
+          <div class="atc-body">
+            <div class="atc-cust">
+              <div class="cust-av">AH</div>
+              <div>
+                <div class="cust-name">Ahmed Al Rashidi</div>
+                <div class="cust-phone">+971 50 412 8800</div>
+              </div>
+              <div class="call-btn">📞</div>
+            </div>
+
+            <div class="prog-section">
+              <div class="prog-label">
+                <span>TRIP PROGRESS</span>
+                <span style="color:var(--accent);">ETA 8 MIN</span>
+              </div>
+              <div class="prog-bar"><div class="prog-fill" style="width:62%;"></div></div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+              <div style="background:rgba(26,109,255,0.08);border-left:2px solid var(--blue);padding:6px 8px;">
+                <div style="font-size:7px;color:var(--steel);font-family:var(--mono);">FROM</div>
+                <div style="font-size:9px;color:var(--white);">DXB T3</div>
+              </div>
+              <div style="background:rgba(0,212,255,0.08);border-left:2px solid var(--accent);padding:6px 8px;">
+                <div style="font-size:7px;color:var(--steel);font-family:var(--mono);">TO</div>
+                <div style="font-size:9px;color:var(--white);">Palm Atlantis</div>
+              </div>
+            </div>
+
+            <div class="nav-buttons">
+              <a href="https://maps.google.com" target="_blank" class="nb" style="text-decoration:none;display:block;">🗺 GOOGLE MAPS</a>
+              <a href="https://waze.com" target="_blank" class="nb" style="text-decoration:none;display:block;">🧭 WAZE</a>
+              <a href="https://2gis.ae" target="_blank" class="nb" style="text-decoration:none;display:block;">📍 2GIS</a>
+            </div>
+
+            <div class="complete-btn">✓ COMPLETE TRIP</div>
+          </div>
+        </div>
+
+        <div style="margin:0 12px 12px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
+          <div style="background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.15);border-radius:6px;padding:8px;text-align:center;">
+            <div style="font-family:var(--head);font-size:14px;font-weight:700;color:var(--white);">32</div>
+            <div style="font-size:7px;font-family:var(--mono);color:var(--steel);">KM</div>
+          </div>
+          <div style="background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.15);border-radius:6px;padding:8px;text-align:center;">
+            <div style="font-family:var(--head);font-size:14px;font-weight:700;color:var(--accent);">8</div>
+            <div style="font-size:7px;font-family:var(--mono);color:var(--steel);">MIN ETA</div>
+          </div>
+          <div style="background:rgba(0,232,122,0.06);border:1px solid rgba(0,232,122,0.15);border-radius:6px;padding:8px;text-align:center;">
+            <div style="font-family:var(--head);font-size:14px;font-weight:700;color:var(--success);">210</div>
+            <div style="font-size:7px;font-family:var(--mono);color:var(--steel);">AED</div>
+          </div>
+        </div>
+
+        <div style="margin:0 12px 12px;background:rgba(255,176,32,0.06);border:1px solid rgba(255,176,32,0.15);border-radius:6px;padding:10px 12px;">
+          <div style="font-size:8px;font-family:var(--mono);color:var(--warn);margin-bottom:4px;">FLIGHT TRACKED</div>
+          <div style="font-size:9px;color:var(--chrome);">EK 204 · Landed 16:18 · On time</div>
+        </div>
+
+        <div class="bottom-nav">
+          <div class="bn-item"><div class="bn-icon">🏠</div>HOME</div>
+          <div class="bn-item active"><div class="bn-icon">📍</div>TRIP</div>
+          <div class="bn-item"><div class="bn-icon">💰</div>EARN</div>
+          <div class="bn-item"><div class="bn-icon">👤</div>ME</div>
+        </div>
+      </div>
+    </div>
+    <div class="phone-label">ACTIVE TRIP VIEW</div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:16px;justify-content:flex-start;padding-top:0;">
+    <div style="background:#0e1530;border:1px solid rgba(26,109,255,0.18);border-radius:8px;padding:16px;width:200px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;">APP FEATURES</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+          Instant trip push alerts
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+          Google Maps / Waze / 2GIS nav
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+          Customer call & WhatsApp
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+          Live trip progress bar
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--blue);flex-shrink:0;"></div>
+          Flight tracking for airports
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--success);flex-shrink:0;"></div>
+          Daily earnings dashboard
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--success);flex-shrink:0;"></div>
+          Performance rating tracker
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--success);flex-shrink:0;"></div>
+          Online / Offline toggle
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--warn);flex-shrink:0;"></div>
+          Decline & reassign option
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:9px;color:var(--chrome);">
+          <div style="width:5px;height:5px;border-radius:50%;background:var(--warn);flex-shrink:0;"></div>
+          Document expiry alerts
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#0e1530;border:1px solid rgba(26,109,255,0.18);border-radius:8px;padding:16px;width:200px;">
+      <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.2em;color:var(--accent);margin-bottom:12px;">TECH STACK</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:8px;color:var(--steel);font-family:var(--mono);">React Native / Expo</div>
+        <div style="font-size:8px;color:var(--steel);font-family:var(--mono);">Firebase Push (FCM)</div>
+        <div style="font-size:8px;color:var(--steel);font-family:var(--mono);">Google Maps SDK</div>
+        <div style="font-size:8px;color:var(--steel);font-family:var(--mono);">Supabase Realtime</div>
+        <div style="font-size:8px;color:var(--steel);font-family:var(--mono);">WhatsApp Cloud API</div>
+      </div>
+    </div>
+
+    <div style="width:200px;">
+      <button style="width:100%;padding:10px;background:var(--blue);border:none;border-radius:6px;font-family:var(--head);font-size:12px;font-weight:700;color:#fff;cursor:pointer;letter-spacing:0.08em;margin-bottom:8px;" onclick="window.location.href='crm.html'">Build Driver App ↗</button>
+      <button style="width:100%;padding:10px;background:transparent;border:1px solid rgba(0,212,255,0.25);border-radius:6px;font-family:var(--head);font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;letter-spacing:0.08em;" onclick="window.open('https://wa.me/971504236099','_blank')">WhatsApp Automations ↗</button>
+    </div>
+  </div>
+</div>

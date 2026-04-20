@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Finance Dashboard</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;background:transparent;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.4);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+</style>
+</head>
+<body style="margin:0;background:#090d1a;color:#c8d8e8;">
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link current">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="fleet.html" class="gnav-link">FLEET</a>
+    <a href="vendor.html" class="gnav-link">VENDORS</a>
+    <a href="customers.html" class="gnav-link">CUSTOMERS</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="index.html" class="gnav-link">WEBSITE</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">💬 CONTACT</a>
+</nav>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --b:#050810;--deep:#090d1a;--panel:#0e1530;--card:#111a35;
+  --blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;
+  --steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;
+  --success:#00e87a;--warn:#ffb020;--danger:#ff3c5f;
+  --mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;
+}
+.wrap{background:#090d1a;border-radius:10px;border:1px solid rgba(26,109,255,0.18);overflow:hidden;font-family:var(--mono);}
+.topbar{background:#050810;border-bottom:1px solid rgba(26,109,255,0.2);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:0.12em;color:var(--white);}
+.brand span{color:var(--blue2);}
+.period-tabs{display:flex;gap:2px;}
+.ptab{padding:5px 12px;font-size:8px;letter-spacing:0.12em;font-family:var(--mono);cursor:pointer;border-radius:2px;color:var(--steel);border:1px solid transparent;}
+.ptab.active{background:rgba(26,109,255,0.15);color:var(--blue2);border-color:rgba(26,109,255,0.3);}
+.ptab:hover:not(.active){color:var(--chrome);}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:rgba(26,109,255,0.08);}
+.kpi{background:#050810;padding:16px 14px;position:relative;}
+.kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;}
+.kpi.blue::before{background:var(--blue);}
+.kpi.green::before{background:var(--success);}
+.kpi.red::before{background:var(--danger);}
+.kpi.warn::before{background:var(--warn);}
+.kpi.cyan::before{background:var(--accent);}
+.kpi-lbl{font-size:7px;letter-spacing:0.18em;color:var(--steel);margin-bottom:8px;}
+.kpi-val{font-family:var(--head);font-size:22px;font-weight:700;color:var(--white);line-height:1;}
+.kpi-sub{font-size:8px;color:var(--steel);margin-top:5px;}
+.kpi-sub.up{color:var(--success);}
+.kpi-sub.dn{color:var(--danger);}
+.kpi-sub.acc{color:var(--accent);}
+.main-grid{display:grid;grid-template-columns:1fr 320px;gap:1px;background:rgba(26,109,255,0.06);}
+.chart-col{background:#090d1a;padding:20px;}
+.side-col{background:#050810;padding:0;}
+.sec-label{font-family:var(--mono);font-size:8px;letter-spacing:0.2em;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sec-label::before{content:'';width:16px;height:1px;background:var(--accent);}
+.chart-legend{display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;}
+.cl-item{display:flex;align-items:center;gap:5px;font-size:8px;color:var(--steel);}
+.cl-sq{width:8px;height:8px;border-radius:1px;}
+.bottom-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(26,109,255,0.06);}
+.trip-table-wrap{overflow-x:auto;}
+.trip-table{width:100%;border-collapse:collapse;}
+.trip-table th{font-size:7px;letter-spacing:0.15em;color:var(--steel);padding:8px 10px;text-align:left;border-bottom:1px solid rgba(26,109,255,0.1);}
+.trip-table td{font-size:9px;padding:8px 10px;border-bottom:1px solid rgba(26,109,255,0.05);color:var(--chrome);}
+.trip-table tr:hover td{background:rgba(26,109,255,0.04);}
+.bid{font-family:var(--mono);font-size:8px;color:var(--blue2);}
+.profit-pill{display:inline-block;padding:2px 6px;border-radius:2px;font-size:8px;font-family:var(--mono);}
+.pp-good{background:rgba(0,232,122,0.1);color:var(--success);}
+.pp-ok{background:rgba(0,212,255,0.1);color:var(--accent);}
+.pp-low{background:rgba(255,176,32,0.1);color:var(--warn);}
+.panel{background:#090d1a;padding:16px;}
+.cost-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid rgba(26,109,255,0.06);}
+.cost-row:last-child{border:none;}
+.cost-icon{width:28px;height:28px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.cost-label{font-size:9px;color:var(--chrome);flex:1;}
+.cost-amount{font-family:var(--mono);font-size:10px;}
+.cost-bar-wrap{flex:2;height:4px;background:rgba(26,109,255,0.08);border-radius:2px;overflow:hidden;}
+.cost-bar{height:100%;border-radius:2px;}
+.salik-section{padding:14px;}
+.salik-row{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(26,109,255,0.06);font-size:8px;}
+.salik-gate{color:var(--steel);}
+.salik-count{color:var(--chrome);}
+.salik-cost{color:var(--warn);font-family:var(--mono);}
+.profit-meter{padding:14px;border-bottom:1px solid rgba(26,109,255,0.08);}
+.pm-label{font-size:8px;letter-spacing:0.15em;color:var(--steel);margin-bottom:8px;display:flex;justify-content:space-between;}
+.pm-track{height:8px;background:rgba(26,109,255,0.08);border-radius:4px;overflow:hidden;margin-bottom:6px;}
+.pm-fill{height:100%;border-radius:4px;}
+.pm-markers{display:flex;justify-content:space-between;font-size:7px;color:rgba(143,168,200,0.4);}
+</style>
+
+<h2 class="sr-only">GENZ FleetOps Finance Dashboard — monthly revenue, per-trip profit, Salik tracking, fuel costs, and P&L analysis</h2>
+
+<div class="wrap">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="brand"><span>GENZ</span> FleetOps™ · Finance</div>
+      <div style="font-size:8px;letter-spacing:0.2em;color:var(--steel);">APR 2026 · DUBAI</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="period-tabs">
+        <div class="ptab" onclick="setPeriod(this,'TODAY')">TODAY</div>
+        <div class="ptab" onclick="setPeriod(this,'WEEK')">WEEK</div>
+        <div class="ptab active" onclick="setPeriod(this,'MONTH')">MONTH</div>
+        <div class="ptab" onclick="setPeriod(this,'QUARTER')">QUARTER</div>
+      </div>
+      <button style="padding:5px 12px;background:var(--blue);border:none;border-radius:2px;font-size:8px;font-family:var(--mono);color:#fff;cursor:pointer;letter-spacing:0.1em;" onclick="alert('Export feature: Connect to your accounting system.\n\nFor now, screenshot this view or print to PDF (Ctrl+P).')">EXPORT REPORT ↗</button>
+    </div>
+  </div>
+
+  <div class="kpi-strip">
+    <div class="kpi blue">
+      <div class="kpi-lbl">GROSS REVENUE</div>
+      <div class="kpi-val" style="font-size:18px;">AED 312,480</div>
+      <div class="kpi-sub up">↑ 18.4% vs Mar</div>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-lbl">TOTAL COSTS</div>
+      <div class="kpi-val" style="font-size:18px;">AED 109,380</div>
+      <div class="kpi-sub dn">↑ 11.2% costs</div>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-lbl">NET PROFIT</div>
+      <div class="kpi-val" style="font-size:18px;">AED 203,100</div>
+      <div class="kpi-sub up">↑ 22.1% margin gain</div>
+    </div>
+    <div class="kpi cyan">
+      <div class="kpi-lbl">PROFIT MARGIN</div>
+      <div class="kpi-val">65%</div>
+      <div class="kpi-sub acc">Target: 60%</div>
+    </div>
+    <div class="kpi warn">
+      <div class="kpi-lbl">TOTAL TRIPS</div>
+      <div class="kpi-val">1,248</div>
+      <div class="kpi-sub up">Avg AED 250/trip</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div class="chart-col">
+      <div class="sec-label">MONTHLY REVENUE vs PROFIT TREND</div>
+      <div class="chart-legend">
+        <div class="cl-item"><div class="cl-sq" style="background:#1a6dff;"></div>Revenue</div>
+        <div class="cl-item"><div class="cl-sq" style="background:#00e87a;"></div>Net Profit</div>
+        <div class="cl-item"><div class="cl-sq" style="background:#ff3c5f;"></div>Costs</div>
+      </div>
+      <div style="position:relative;width:100%;height:200px;">
+        <canvas id="revenueChart" role="img" aria-label="Monthly bar chart showing revenue, profit, and costs for past 6 months. Revenue peaks at AED 312K in April 2026.">Revenue trend: Nov 180K, Dec 220K, Jan 195K, Feb 240K, Mar 264K, Apr 312K. Profit follows at approximately 60-65% margin.</canvas>
+      </div>
+    </div>
+
+    <div class="side-col">
+      <div style="padding:14px;border-bottom:1px solid rgba(26,109,255,0.08);">
+        <div class="sec-label">PROFIT MARGIN GAUGE</div>
+        <div class="profit-meter" style="padding:0;border:none;">
+          <div class="pm-label"><span>NET MARGIN THIS MONTH</span><span style="color:var(--success);">65%</span></div>
+          <div class="pm-track"><div class="pm-fill" style="width:65%;background:linear-gradient(90deg,#1a6dff,#00e87a);"></div></div>
+          <div class="pm-markers"><span>0%</span><span>25%</span><span>50%</span><span>75%</span><span>100%</span></div>
+        </div>
+      </div>
+
+      <div class="salik-section">
+        <div class="sec-label">SALIK TRACKING</div>
+        <div class="salik-row"><div class="salik-gate">Al Safa Gate</div><div class="salik-count">312 passes</div><div class="salik-cost">AED 1,248</div></div>
+        <div class="salik-row"><div class="salik-gate">Al Garhoud</div><div class="salik-count">287 passes</div><div class="salik-cost">AED 1,148</div></div>
+        <div class="salik-row"><div class="salik-gate">Al Maktoum</div><div class="salik-count">198 passes</div><div class="salik-cost">AED 792</div></div>
+        <div class="salik-row"><div class="salik-gate">Al Mamzar</div><div class="salik-count">156 passes</div><div class="salik-cost">AED 624</div></div>
+        <div class="salik-row" style="border-top:1px solid rgba(255,176,32,0.2);padding-top:8px;margin-top:4px;">
+          <div class="salik-gate" style="color:var(--white);font-weight:700;">TOTAL SALIK</div>
+          <div class="salik-count">953 passes</div>
+          <div class="salik-cost" style="font-size:10px;">AED 3,812</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-grid">
+    <div style="background:#090d1a;padding:16px;">
+      <div class="sec-label">COST BREAKDOWN</div>
+      <div class="cost-row">
+        <div class="cost-icon" style="background:rgba(26,109,255,0.1);">👨‍✈️</div>
+        <div class="cost-label">Driver Payments</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:58%;background:#1a6dff;"></div></div>
+        <div class="cost-amount" style="color:var(--danger);">AED 62,496</div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-icon" style="background:rgba(255,176,32,0.1);">⛽</div>
+        <div class="cost-label">Fuel (14 vehicles)</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:32%;background:var(--warn);"></div></div>
+        <div class="cost-amount" style="color:var(--danger);">AED 28,640</div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-icon" style="background:rgba(255,176,32,0.08);">🛣️</div>
+        <div class="cost-label">Salik (All Gates)</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:8%;background:#ffb020;"></div></div>
+        <div class="cost-amount" style="color:var(--danger);">AED 3,812</div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-icon" style="background:rgba(143,168,200,0.08);">🅿️</div>
+        <div class="cost-label">Parking</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:6%;background:#8fa8c8;"></div></div>
+        <div class="cost-amount" style="color:var(--danger);">AED 2,240</div>
+      </div>
+      <div class="cost-row">
+        <div class="cost-icon" style="background:rgba(0,212,255,0.08);">🤝</div>
+        <div class="cost-label">Vendor Payouts</div>
+        <div class="cost-bar-wrap"><div class="cost-bar" style="width:14%;background:var(--accent);"></div></div>
+        <div class="cost-amount" style="color:var(--danger);">AED 12,192</div>
+      </div>
+      <div class="cost-row" style="border-top:1px solid rgba(26,109,255,0.15);margin-top:4px;padding-top:10px;">
+        <div class="cost-icon" style="background:rgba(255,60,95,0.1);">📊</div>
+        <div class="cost-label" style="color:var(--white);font-weight:700;">TOTAL COSTS</div>
+        <div class="cost-bar-wrap"></div>
+        <div class="cost-amount" style="color:var(--danger);font-size:12px;">AED 109,380</div>
+      </div>
+    </div>
+
+    <div style="background:#050810;padding:16px;">
+      <div class="sec-label">PER-TRIP PROFIT LOG</div>
+      <div class="trip-table-wrap">
+        <table class="trip-table">
+          <thead>
+            <tr>
+              <th>BOOKING</th>
+              <th>ROUTE</th>
+              <th>REVENUE</th>
+              <th>COST</th>
+              <th>PROFIT</th>
+              <th>MARGIN</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="bid">GFO-20490</div></td>
+              <td style="font-size:8px;">DXB T3→Palm</td>
+              <td>185</td>
+              <td style="color:var(--danger);">62</td>
+              <td style="color:var(--success);">123</td>
+              <td><span class="profit-pill pp-good">66%</span></td>
+            </tr>
+            <tr>
+              <td><div class="bid">GFO-20489</div></td>
+              <td style="font-size:8px;">DIFC→JBR</td>
+              <td>95</td>
+              <td style="color:var(--danger);">38</td>
+              <td style="color:var(--success);">57</td>
+              <td><span class="profit-pill pp-ok">60%</span></td>
+            </tr>
+            <tr>
+              <td><div class="bid">GFO-20488</div></td>
+              <td style="font-size:8px;">BK→AUH</td>
+              <td>320</td>
+              <td style="color:var(--danger);">98</td>
+              <td style="color:var(--success);">222</td>
+              <td><span class="profit-pill pp-good">69%</span></td>
+            </tr>
+            <tr>
+              <td><div class="bid">GFO-20485</div></td>
+              <td style="font-size:8px;">Marina→MOE</td>
+              <td>75</td>
+              <td style="color:var(--danger);">44</td>
+              <td style="color:var(--success);">31</td>
+              <td><span class="profit-pill pp-low">41%</span></td>
+            </tr>
+            <tr>
+              <td><div class="bid">GFO-20484</div></td>
+              <td style="font-size:8px;">BB→DXB T1</td>
+              <td>140</td>
+              <td style="color:var(--danger);">51</td>
+              <td style="color:var(--success);">89</td>
+              <td><span class="profit-pill pp-good">64%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:12px;">
+        <button style="width:100%;padding:8px;background:transparent;border:1px solid rgba(0,212,255,0.25);border-radius:2px;font-size:8px;font-family:var(--mono);color:var(--accent);cursor:pointer;letter-spacing:0.1em;" onclick="window.location.href='crm.html'">VIEW ALL 1,248 TRIPS ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+function setPeriod(el,p){document.querySelectorAll('.ptab').forEach(t=>t.classList.remove('active'));el.classList.add('active');}
+const ctx=document.getElementById('revenueChart');
+if(ctx){
+  new Chart(ctx,{
+    type:'bar',
+    data:{
+      labels:['NOV','DEC','JAN','FEB','MAR','APR'],
+      datasets:[
+        {label:'Revenue',data:[180000,220000,195000,240000,264000,312480],backgroundColor:'rgba(26,109,255,0.7)',borderColor:'#1a6dff',borderWidth:1},
+        {label:'Net Profit',data:[108000,136400,117000,148800,168960,203100],backgroundColor:'rgba(0,232,122,0.6)',borderColor:'#00e87a',borderWidth:1},
+        {label:'Costs',data:[72000,83600,78000,91200,95040,109380],backgroundColor:'rgba(255,60,95,0.5)',borderColor:'#ff3c5f',borderWidth:1}
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#8fa8c8',font:{size:9},autoSkip:false},grid:{color:'rgba(26,109,255,0.05)'}},
+        y:{ticks:{color:'#8fa8c8',font:{size:9},callback:v=>'AED '+(v/1000)+'K'},grid:{color:'rgba(26,109,255,0.06)'}}
+      }
+    }
+  });
+}
+</script>

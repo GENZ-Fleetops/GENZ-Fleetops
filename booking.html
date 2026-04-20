@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — Booking Engine</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;background:transparent;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);border-bottom:1px solid rgba(0,212,255,0.4);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+</style>
+</head>
+<body style="margin:0;background:#090d1a;color:#c8d8e8;">
+
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link">CRM</a>
+    <a href="booking.html" class="gnav-link current">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="fleet.html" class="gnav-link">FLEET</a>
+    <a href="vendor.html" class="gnav-link">VENDORS</a>
+    <a href="customers.html" class="gnav-link">CUSTOMERS</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="index.html" class="gnav-link">WEBSITE</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">💬 CONTACT</a>
+</nav>
+
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --b:#050810;--deep:#090d1a;--panel:#0e1530;--card:#111a35;
+  --blue:#1a6dff;--blue2:#2e85ff;--accent:#00d4ff;
+  --steel:#8fa8c8;--chrome:#c8d8e8;--white:#f0f4ff;
+  --success:#00e87a;--warn:#ffb020;--danger:#ff3c5f;
+  --mono:'Share Tech Mono',monospace;--head:'Rajdhani',sans-serif;
+}
+.wrap{background:#090d1a;border-radius:10px;border:1px solid rgba(26,109,255,0.18);overflow:hidden;font-family:var(--head);}
+.topbar{background:#050810;border-bottom:1px solid rgba(26,109,255,0.2);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;}
+.brand{font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:0.12em;color:var(--white);}
+.brand span{color:var(--blue2);}
+.step-track{display:flex;align-items:center;gap:4px;}
+.st{display:flex;align-items:center;gap:6px;font-size:8px;font-family:var(--mono);letter-spacing:0.1em;color:var(--steel);}
+.st.done{color:var(--success);}
+.st.active{color:var(--accent);}
+.st-num{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:8px;border:1px solid rgba(143,168,200,0.3);font-family:var(--mono);}
+.st.done .st-num{background:rgba(0,232,122,0.15);border-color:var(--success);color:var(--success);}
+.st.active .st-num{background:rgba(0,212,255,0.15);border-color:var(--accent);color:var(--accent);}
+.st-line{width:24px;height:1px;background:rgba(143,168,200,0.2);}
+.st-line.done{background:var(--success);}
+.body{display:grid;grid-template-columns:1fr 320px;min-height:600px;}
+.form-col{padding:28px 24px;border-right:1px solid rgba(26,109,255,0.1);}
+.summary-col{background:#050810;padding:24px 20px;display:flex;flex-direction:column;}
+.sec-label{font-family:var(--mono);font-size:8px;letter-spacing:0.25em;color:var(--accent);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sec-label::before{content:'';width:20px;height:1px;background:var(--accent);}
+.field-group{margin-bottom:20px;}
+.fl{font-family:var(--mono);font-size:8px;letter-spacing:0.15em;color:var(--steel);margin-bottom:6px;}
+.fi{width:100%;background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.2);border-radius:2px;padding:10px 12px;color:var(--white);font-family:var(--mono);font-size:10px;outline:none;transition:border-color 0.2s;}
+.fi:focus{border-color:var(--accent);}
+.fi::placeholder{color:rgba(143,168,200,0.4);}
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.loc-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.preset{padding:3px 10px;background:rgba(26,109,255,0.06);border:1px solid rgba(26,109,255,0.15);border-radius:2px;font-size:8px;font-family:var(--mono);color:var(--steel);cursor:pointer;transition:all 0.2s;}
+.preset:hover,.preset.sel{background:rgba(26,109,255,0.15);color:var(--blue2);border-color:rgba(26,109,255,0.4);}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.vehicle-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:4px;}
+.vcard{background:rgba(26,109,255,0.04);border:1px solid rgba(26,109,255,0.12);border-radius:4px;padding:10px 6px;text-align:center;cursor:pointer;transition:all 0.25s;}
+.vcard:hover{background:rgba(26,109,255,0.1);border-color:rgba(26,109,255,0.3);}
+.vcard.sel{background:rgba(26,109,255,0.18);border-color:var(--blue);box-shadow:0 0 0 1px var(--blue);}
+.vi{font-size:20px;margin-bottom:5px;display:block;}
+.vn{font-family:var(--mono);font-size:7px;letter-spacing:0.1em;color:var(--steel);}
+.vcard.sel .vn{color:var(--accent);}
+.vp{font-family:var(--head);font-size:10px;font-weight:700;color:var(--white);margin-top:3px;}
+.extra-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:4px;}
+.extra{background:rgba(26,109,255,0.04);border:1px solid rgba(26,109,255,0.12);border-radius:4px;padding:8px 10px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+.extra:hover{background:rgba(26,109,255,0.08);}
+.extra.sel{background:rgba(26,109,255,0.15);border-color:rgba(26,109,255,0.4);}
+.extra-name{font-family:var(--mono);font-size:8px;color:var(--steel);}
+.extra-price{font-family:var(--head);font-size:10px;font-weight:700;color:var(--white);}
+.pay-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;}
+.pcard{background:rgba(26,109,255,0.04);border:1px solid rgba(26,109,255,0.12);border-radius:4px;padding:8px;text-align:center;cursor:pointer;transition:all 0.2s;}
+.pcard:hover{background:rgba(26,109,255,0.1);}
+.pcard.sel{background:rgba(26,109,255,0.18);border-color:var(--blue);}
+.pcard-name{font-family:var(--mono);font-size:8px;color:var(--chrome);margin-top:4px;}
+.summary-head{font-family:var(--head);font-size:14px;font-weight:700;color:var(--white);letter-spacing:0.08em;margin-bottom:16px;}
+.sum-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(26,109,255,0.06);font-size:9px;}
+.sr-label{color:var(--steel);font-family:var(--mono);}
+.sr-val{color:var(--white);font-family:var(--mono);}
+.sr-val.accent{color:var(--accent);}
+.fare-box{background:rgba(26,109,255,0.08);border:1px solid rgba(26,109,255,0.25);border-radius:4px;padding:16px;margin:16px 0;text-align:center;}
+.fare-label{font-family:var(--mono);font-size:8px;letter-spacing:0.2em;color:var(--steel);margin-bottom:6px;}
+.fare-val{font-family:var(--head);font-size:2.4rem;font-weight:700;color:var(--white);line-height:1;}
+.fare-curr{font-size:14px;color:var(--steel);}
+.fare-note{font-family:var(--mono);font-size:8px;color:var(--success);margin-top:6px;}
+.cost-breakdown{margin-bottom:16px;}
+.cb-row{display:flex;justify-content:space-between;font-size:8px;padding:4px 0;}
+.cb-label{color:var(--steel);font-family:var(--mono);}
+.cb-val{color:var(--chrome);font-family:var(--mono);}
+.cb-val.red{color:var(--danger);}
+.cb-val.green{color:var(--success);}
+.confirm-btn{width:100%;padding:14px;background:var(--blue);border:none;border-radius:4px;font-family:var(--head);font-size:14px;font-weight:700;letter-spacing:0.1em;color:var(--white);cursor:pointer;transition:all 0.3s;margin-top:auto;}
+.confirm-btn:hover{background:var(--blue2);}
+.trust-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.tb{font-family:var(--mono);font-size:7px;letter-spacing:0.1em;color:var(--steel);background:rgba(143,168,200,0.06);border:1px solid rgba(143,168,200,0.1);padding:3px 8px;border-radius:2px;}
+.note-box{background:rgba(0,232,122,0.06);border:1px solid rgba(0,232,122,0.15);border-radius:4px;padding:10px 12px;margin-top:12px;}
+.note-text{font-family:var(--mono);font-size:8px;color:var(--success);line-height:1.5;}
+</style>
+
+<h2 class="sr-only">GENZ FleetOps B2C Booking Engine — 5-step customer booking form with location search, vehicle selection, auto pricing, and payment</h2>
+
+<div class="wrap">
+  <div class="topbar">
+    <div class="brand"><span>GENZ</span> FleetOps™ · Book a Ride</div>
+    <div class="step-track">
+      <div class="st done"><div class="st-num">✓</div>JOURNEY</div>
+      <div class="st-line done"></div>
+      <div class="st done"><div class="st-num">✓</div>VEHICLE</div>
+      <div class="st-line done"></div>
+      <div class="st active"><div class="st-num">3</div>EXTRAS</div>
+      <div class="st-line"></div>
+      <div class="st"><div class="st-num">4</div>PAYMENT</div>
+      <div class="st-line"></div>
+      <div class="st"><div class="st-num">5</div>CONFIRM</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="form-col">
+      <div class="field-group">
+        <div class="sec-label">JOURNEY DETAILS</div>
+        <div class="loc-grid">
+          <div>
+            <div class="fl">PICKUP LOCATION</div>
+            <input class="fi" id="pickup" value="Dubai International Airport T3" placeholder="Search hotels, airports..."/>
+            <div class="loc-presets" id="pickup-presets">
+              <div class="preset sel" onclick="setLoc('pickup',this,'DXB T3')">DXB T3</div>
+              <div class="preset" onclick="setLoc('pickup',this,'DXB T1')">DXB T1</div>
+              <div class="preset" onclick="setLoc('pickup',this,'Abu Dhabi Airport')">AUH</div>
+              <div class="preset" onclick="setLoc('pickup',this,'Burj Khalifa')">Burj Khalifa</div>
+              <div class="preset" onclick="setLoc('pickup',this,'Mall of Emirates')">MOE</div>
+              <div class="preset" onclick="setLoc('pickup',this,'DIFC')">DIFC</div>
+              <div class="preset" onclick="setLoc('pickup',this,'Dubai Marina')">Marina</div>
+              <div class="preset" onclick="setLoc('pickup',this,'Palm Jumeirah')">Palm</div>
+            </div>
+          </div>
+          <div>
+            <div class="fl">DROP LOCATION</div>
+            <input class="fi" id="dropoff" value="Atlantis The Palm, Dubai" placeholder="Search hotels, airports..."/>
+            <div class="loc-presets" id="drop-presets">
+              <div class="preset" onclick="setLoc('drop',this,'Atlantis The Palm')">Atlantis</div>
+              <div class="preset sel" onclick="setLoc('drop',this,'Atlantis The Palm')">Atlantis</div>
+              <div class="preset" onclick="setLoc('drop',this,'Burj Al Arab')">Burj Al Arab</div>
+              <div class="preset" onclick="setLoc('drop',this,'Address Downtown')">Downtown</div>
+              <div class="preset" onclick="setLoc('drop',this,'JBR Walk')">JBR</div>
+              <div class="preset" onclick="setLoc('drop',this,'Business Bay')">Biz Bay</div>
+              <div class="preset" onclick="setLoc('drop',this,'Abu Dhabi Corniche')">AUH City</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="row2">
+          <div>
+            <div class="fl">DATE</div>
+            <input class="fi" type="date" value="2026-04-19"/>
+          </div>
+          <div>
+            <div class="fl">TIME</div>
+            <input class="fi" type="time" value="14:30"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="row2">
+          <div>
+            <div class="fl">PASSENGER NAME</div>
+            <input class="fi" placeholder="Full name" value="Ahmed Al Rashidi"/>
+          </div>
+          <div>
+            <div class="fl">MOBILE (WhatsApp)</div>
+            <input class="fi" placeholder="+971 50 000 0000" value="+971 50 412 8800"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="sec-label">SELECT VEHICLE</div>
+        <div class="vehicle-grid">
+          <div class="vcard" onclick="selectVehicle(this,95,'SEDAN')"><span class="vi">🚗</span><div class="vn">SEDAN</div><div class="vp">AED 95</div></div>
+          <div class="vcard" onclick="selectVehicle(this,145,'BUSINESS')"><span class="vi">🚙</span><div class="vn">BUSINESS</div><div class="vp">AED 145</div></div>
+          <div class="vcard sel" onclick="selectVehicle(this,185,'LUXURY')"><span class="vi">🏎</span><div class="vn">LUXURY</div><div class="vp">AED 185</div></div>
+          <div class="vcard" onclick="selectVehicle(this,240,'SUV VIP')"><span class="vi">🚐</span><div class="vn">SUV VIP</div><div class="vp">AED 240</div></div>
+          <div class="vcard" onclick="selectVehicle(this,380,'BUS 14P')"><span class="vi">🚌</span><div class="vn">BUS 14P</div><div class="vp">AED 380</div></div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="sec-label">ADD-ONS & EXTRAS</div>
+        <div class="extra-grid">
+          <div class="extra sel" onclick="toggleExtra(this,25)">
+            <div><div class="extra-name">MEET & GREET</div><div class="extra-price">+AED 25</div></div>
+          </div>
+          <div class="extra" onclick="toggleExtra(this,15)">
+            <div><div class="extra-name">CHILD SEAT</div><div class="extra-price">+AED 15</div></div>
+          </div>
+          <div class="extra" onclick="toggleExtra(this,30)">
+            <div><div class="extra-name">EXTRA WAIT</div><div class="extra-price">+AED 30</div></div>
+          </div>
+          <div class="extra" onclick="toggleExtra(this,50)">
+            <div><div class="extra-name">NIGHT RATE</div><div class="extra-price">+AED 50</div></div>
+          </div>
+          <div class="extra sel" onclick="toggleExtra(this,0)">
+            <div><div class="extra-name">FLIGHT TRACK</div><div class="extra-price">FREE</div></div>
+          </div>
+          <div class="extra" onclick="toggleExtra(this,20)">
+            <div><div class="extra-name">REFRESHMENTS</div><div class="extra-price">+AED 20</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <div class="sec-label">PAYMENT METHOD</div>
+        <div class="pay-grid">
+          <div class="pcard sel" onclick="selectPay(this)"><div style="font-size:16px;">💳</div><div class="pcard-name">CARD</div></div>
+          <div class="pcard" onclick="selectPay(this)"><div style="font-size:16px;"></div><div class="pcard-name">APPLE PAY</div></div>
+          <div class="pcard" onclick="selectPay(this)"><div style="font-size:16px;">G</div><div class="pcard-name">GOOGLE PAY</div></div>
+          <div class="pcard" onclick="selectPay(this)"><div style="font-size:16px;">📦</div><div class="pcard-name">TABBY BNPL</div></div>
+          <div class="pcard" onclick="selectPay(this)"><div style="font-size:16px;">📦</div><div class="pcard-name">TAMARA</div></div>
+          <div class="pcard" onclick="selectPay(this)"><div style="font-size:16px;">P</div><div class="pcard-name">PAYPAL</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="summary-col">
+      <div class="summary-head">Booking Summary</div>
+
+      <div class="sum-row"><div class="sr-label">PICKUP</div><div class="sr-val" id="s-pickup">DXB T3</div></div>
+      <div class="sum-row"><div class="sr-label">DROP</div><div class="sr-val" id="s-drop">Atlantis The Palm</div></div>
+      <div class="sum-row"><div class="sr-label">DATE/TIME</div><div class="sr-val">19 Apr · 14:30</div></div>
+      <div class="sum-row"><div class="sr-label">VEHICLE</div><div class="sr-val accent" id="s-vehicle">LUXURY</div></div>
+      <div class="sum-row"><div class="sr-label">DISTANCE</div><div class="sr-val">32 km · ~38 min</div></div>
+      <div class="sum-row"><div class="sr-label">PASSENGER</div><div class="sr-val">Ahmed Al Rashidi</div></div>
+
+      <div class="fare-box">
+        <div class="fare-label">TOTAL FARE (AUTO-PRICED)</div>
+        <div class="fare-val"><span class="fare-curr">AED </span><span id="fare-total">210</span></div>
+        <div class="fare-note">✓ Price locked at booking — no surprises</div>
+      </div>
+
+      <div class="cost-breakdown">
+        <div style="font-family:var(--mono);font-size:8px;letter-spacing:0.15em;color:var(--steel);margin-bottom:8px;">FARE BREAKDOWN</div>
+        <div class="cb-row"><div class="cb-label">Base fare (LUXURY)</div><div class="cb-val">AED 185</div></div>
+        <div class="cb-row"><div class="cb-label">Meet &amp; Greet</div><div class="cb-val">AED 25</div></div>
+        <div class="cb-row"><div class="cb-label">Flight Tracking</div><div class="cb-val">FREE</div></div>
+        <div class="cb-row" style="border-top:1px solid rgba(26,109,255,0.1);padding-top:6px;margin-top:4px;">
+          <div class="cb-label" style="color:var(--white);">TOTAL</div>
+          <div class="cb-val green" id="cb-total">AED 210</div>
+        </div>
+      </div>
+
+      <div class="note-box">
+        <div class="note-text">✓ Booking confirmation via WhatsApp<br>✓ Driver details sent 30 min before pickup<br>✓ Flight tracking active for DXB T3</div>
+      </div>
+
+      <div class="trust-badges">
+        <div class="tb">SSL SECURED</div>
+        <div class="tb">INSTANT CONFIRM</div>
+        <div class="tb">FREE CANCEL 2HR</div>
+      </div>
+
+      <button class="confirm-btn" onclick="showBookingConfirm()">CONFIRM &amp; PAY AED 210 →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let baseFare=185,extras=25;
+function updateFare(){
+  const total=baseFare+extras;
+  document.getElementById('fare-total').textContent=total;
+  document.getElementById('cb-total').textContent='AED '+total;
+  document.getElementById('confirm-btn-val');
+}
+function selectVehicle(el,price,name){
+  document.querySelectorAll('.vcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  baseFare=price;
+  document.getElementById('s-vehicle').textContent=name;
+  updateFare();
+}
+function toggleExtra(el,price){
+  el.classList.toggle('sel');
+  if(el.classList.contains('sel'))extras+=price;
+  else extras-=price;
+  if(extras<0)extras=0;
+  updateFare();
+}
+function selectPay(el){
+  document.querySelectorAll('.pcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function setLoc(type,el,name){
+  const presetGroup=type==='pickup'?'pickup-presets':'drop-presets';
+  document.querySelectorAll('#'+presetGroup+' .preset').forEach(p=>p.classList.remove('sel'));
+  el.classList.add('sel');
+  const fieldId=type==='pickup'?'pickup':'dropoff';
+  const sumId=type==='pickup'?'s-pickup':'s-drop';
+  document.getElementById(sumId).textContent=name;
+}
+</script>

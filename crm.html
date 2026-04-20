@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GENZ FleetOps™ — CRM · Operations Command</title>
+<link rel="icon" type="image/png" href="assets/genz-fleetops-logo.png">
+<style>
+/* GLOBAL NAV BAR */
+.genz-global-nav{position:sticky;top:0;z-index:9999;background:rgba(5,8,16,0.97);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,109,255,0.2);padding:0 20px;height:52px;display:flex;align-items:center;justify-content:space-between;font-family:'Rajdhani',sans-serif;}
+.genz-global-nav a{text-decoration:none;color:inherit;}
+.gnav-brand{display:flex;align-items:center;gap:10px;}
+.gnav-logo{width:32px;height:32px;display:flex;align-items:center;justify-content:center;}
+.gnav-logo img{width:32px;height:auto;background:transparent;filter:drop-shadow(0 0 6px rgba(26,109,255,0.5));}
+.gnav-name{font-size:1rem;font-weight:700;letter-spacing:0.1em;color:#f0f4ff;}
+.gnav-name span{color:#2e85ff;}
+.gnav-links{display:flex;gap:2px;align-items:center;}
+.gnav-link{padding:5px 10px;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;color:#8fa8c8;border-radius:2px;transition:all 0.2s;}
+.gnav-link:hover{color:#00d4ff;background:rgba(0,212,255,0.06);}
+.gnav-link.current{color:#00d4ff;background:rgba(0,212,255,0.08);}
+.gnav-cta{padding:5px 14px;background:#1a6dff;color:#f0f4ff;font-family:'Share Tech Mono',monospace;font-size:0.6rem;letter-spacing:0.1em;font-weight:700;transition:all 0.2s;}
+.gnav-cta:hover{background:#2e85ff;}
+@media(max-width:640px){.gnav-links{display:none;}}
+</style>
+</head>
+<body style="margin:0;background:#090d1a;color:#c8d8e8;">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<!-- GLOBAL NAV -->
+<nav class="genz-global-nav">
+  <a href="index.html" class="gnav-brand">
+    <div class="gnav-logo"><img src="assets/genz-fleetops-logo.png" alt="GENZ FleetOps" width="32"></div>
+    <div class="gnav-name"><span>GENZ</span> FleetOps™</div>
+  </a>
+  <div class="gnav-links">
+    <a href="index.html" class="gnav-link">HUB</a>
+    <a href="crm.html" class="gnav-link current">CRM</a>
+    <a href="booking.html" class="gnav-link">BOOKING</a>
+    <a href="dispatch.html" class="gnav-link">DISPATCH</a>
+    <a href="finance.html" class="gnav-link">FINANCE</a>
+    <a href="driver.html" class="gnav-link">DRIVER APP</a>
+    <a href="settings.html" class="gnav-link">SETTINGS</a>
+    <a href="index.html" class="gnav-link">WEBSITE</a>
+  </div>
+  <a href="https://wa.me/971504236099" target="_blank" rel="noopener" class="gnav-cta">💬 CONTACT</a>
+</nav>
+
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --b: #050810;
+    --deep: #090d1a;
+    --panel: #0e1530;
+    --card: #111a35;
+    --blue: #1a6dff;
+    --blue2: #2e85ff;
+    --accent: #00d4ff;
+    --steel: #8fa8c8;
+    --chrome: #c8d8e8;
+    --white: #f0f4ff;
+    --success: #00e87a;
+    --warn: #ffb020;
+    --danger: #ff3c5f;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Rajdhani', sans-serif;
+  }
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap');
+  .wrap { background: #090d1a; border-radius: 12px; overflow: hidden; font-family: 'Exo 2', var(--mono), monospace; color: var(--chrome); min-height: 600px; border: 1px solid rgba(26,109,255,0.15); }
+  .topbar { background: #050810; border-bottom: 1px solid rgba(26,109,255,0.2); padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+  .brand { font-family: var(--head), sans-serif; font-size: 15px; font-weight: 700; letter-spacing: 0.12em; color: var(--white); }
+  .brand span { color: var(--blue2); }
+  .live-badge { display: flex; align-items: center; gap: 6px; font-size: 10px; letter-spacing: 0.2em; color: var(--accent); font-family: var(--mono), monospace; }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success); animation: lblink 1.5s ease-in-out infinite; }
+  @keyframes lblink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .timestamp { font-size: 9px; color: var(--steel); font-family: var(--mono), monospace; letter-spacing: 0.1em; }
+  .layout { display: grid; grid-template-columns: 200px 1fr; height: calc(100% - 49px); min-height: 560px; }
+  .sidebar { background: #050810; border-right: 1px solid rgba(26,109,255,0.12); padding: 16px 0; }
+  .nav-section { margin-bottom: 24px; }
+  .nav-label { font-size: 8px; letter-spacing: 0.25em; color: rgba(143,168,200,0.4); padding: 0 16px 8px; font-family: var(--mono), monospace; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; color: var(--steel); cursor: pointer; transition: all 0.2s; border-left: 2px solid transparent; }
+  .nav-item:hover { color: var(--white); background: rgba(26,109,255,0.06); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(0,212,255,0.06); }
+  .nav-icon { width: 14px; text-align: center; font-size: 12px; }
+  .nav-count { margin-left: auto; background: var(--blue); color: var(--white); font-size: 8px; padding: 2px 6px; border-radius: 2px; font-family: var(--mono), monospace; }
+  .main { overflow-y: auto; padding: 20px; background: var(--deep); }
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .page-title { font-family: var(--head), sans-serif; font-size: 20px; font-weight: 700; color: var(--white); letter-spacing: 0.08em; }
+  .page-sub { font-size: 9px; color: var(--steel); font-family: var(--mono), monospace; letter-spacing: 0.15em; margin-top: 2px; }
+  .header-actions { display: flex; gap: 8px; }
+  .btn-sm { padding: 6px 14px; font-size: 9px; font-weight: 700; letter-spacing: 0.1em; font-family: var(--mono), monospace; cursor: pointer; border: none; border-radius: 2px; }
+  .btn-primary { background: var(--blue); color: var(--white); }
+  .btn-outline { background: transparent; color: var(--accent); border: 1px solid rgba(0,212,255,0.3); }
+  .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 18px; }
+  .kpi { background: var(--panel); border: 1px solid rgba(26,109,255,0.1); padding: 16px; border-radius: 2px; position: relative; overflow: hidden; }
+  .kpi::before { content:''; position:absolute; top:0;left:0;right:0;height:2px; }
+  .kpi.blue::before { background: var(--blue); }
+  .kpi.green::before { background: var(--success); }
+  .kpi.cyan::before { background: var(--accent); }
+  .kpi.warn::before { background: var(--warn); }
+  .kpi-label { font-size: 8px; letter-spacing: 0.2em; color: var(--steel); font-family: var(--mono), monospace; margin-bottom: 8px; }
+  .kpi-val { font-family: var(--head), sans-serif; font-size: 26px; font-weight: 700; color: var(--white); line-height: 1; }
+  .kpi-unit { font-size: 11px; color: var(--steel); margin-left: 2px; }
+  .kpi-delta { font-size: 9px; font-family: var(--mono), monospace; margin-top: 6px; }
+  .kpi-delta.up { color: var(--success); }
+  .kpi-delta.warn { color: var(--warn); }
+  .mid-grid { display: grid; grid-template-columns: 1fr 280px; gap: 12px; margin-bottom: 12px; }
+  .panel { background: var(--panel); border: 1px solid rgba(26,109,255,0.08); border-radius: 2px; }
+  .panel-head { padding: 12px 16px; border-bottom: 1px solid rgba(26,109,255,0.08); display: flex; align-items: center; justify-content: space-between; }
+  .panel-title { font-family: var(--head), sans-serif; font-size: 11px; font-weight: 700; color: var(--white); letter-spacing: 0.1em; }
+  .panel-badge { font-size: 8px; font-family: var(--mono), monospace; padding: 2px 8px; border-radius: 2px; }
+  .pb-blue { background: rgba(26,109,255,0.15); color: var(--blue2); }
+  .pb-green { background: rgba(0,232,122,0.1); color: var(--success); }
+  .pb-warn { background: rgba(255,176,32,0.1); color: var(--warn); }
+  .booking-table { width: 100%; }
+  .booking-table th { font-size: 8px; letter-spacing: 0.2em; color: var(--steel); font-family: var(--mono), monospace; padding: 8px 12px; text-align: left; border-bottom: 1px solid rgba(26,109,255,0.08); }
+  .booking-table td { font-size: 10px; padding: 9px 12px; border-bottom: 1px solid rgba(26,109,255,0.04); color: var(--chrome); vertical-align: middle; }
+  .booking-table tr:hover td { background: rgba(26,109,255,0.04); }
+  .status-pill { display: inline-block; padding: 2px 8px; border-radius: 2px; font-size: 8px; font-family: var(--mono), monospace; letter-spacing: 0.1em; font-weight: 700; }
+  .sp-confirmed { background: rgba(26,109,255,0.15); color: #5aa0ff; }
+  .sp-active { background: rgba(0,232,122,0.1); color: var(--success); }
+  .sp-completed { background: rgba(143,168,200,0.1); color: var(--steel); }
+  .sp-pending { background: rgba(255,176,32,0.12); color: var(--warn); }
+  .booking-id { font-family: var(--mono), monospace; font-size: 9px; color: var(--blue2); }
+  .driver-col { display: flex; align-items: center; gap: 6px; }
+  .d-avatar { width: 22px; height: 22px; border-radius: 50%; background: rgba(26,109,255,0.2); border: 1px solid rgba(26,109,255,0.3); display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: var(--blue2); flex-shrink: 0; }
+  .fare { font-family: var(--mono), monospace; color: var(--white); font-size: 10px; }
+  .fleet-item { padding: 12px 16px; border-bottom: 1px solid rgba(26,109,255,0.06); display: flex; align-items: center; gap: 10px; }
+  .fleet-item:last-child { border-bottom: none; }
+  .fleet-icon { width: 32px; height: 32px; background: rgba(26,109,255,0.1); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .fleet-info { flex: 1; min-width: 0; }
+  .fleet-plate { font-family: var(--mono), monospace; font-size: 10px; color: var(--white); font-weight: 700; }
+  .fleet-model { font-size: 9px; color: var(--steel); margin-top: 2px; }
+  .fleet-status { font-size: 8px; font-family: var(--mono), monospace; }
+  .fs-on-trip { color: var(--success); }
+  .fs-available { color: var(--accent); }
+  .fs-maintenance { color: var(--warn); }
+  .bottom-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .driver-item { padding: 10px 16px; border-bottom: 1px solid rgba(26,109,255,0.06); display: flex; align-items: center; gap: 10px; }
+  .driver-item:last-child { border-bottom: none; }
+  .da-big { width: 32px; height: 32px; border-radius: 50%; background: rgba(26,109,255,0.15); border: 1px solid rgba(26,109,255,0.25); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--blue2); flex-shrink: 0; }
+  .di-name { font-size: 11px; font-weight: 600; color: var(--white); }
+  .di-meta { font-size: 9px; color: var(--steel); font-family: var(--mono), monospace; margin-top: 2px; }
+  .di-score { margin-left: auto; text-align: right; }
+  .score-val { font-family: var(--head), sans-serif; font-size: 16px; font-weight: 700; color: var(--white); }
+  .score-lbl { font-size: 8px; color: var(--steel); font-family: var(--mono), monospace; }
+  .profit-row { padding: 10px 16px; border-bottom: 1px solid rgba(26,109,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+  .profit-row:last-child { border-bottom: none; }
+  .pr-label { font-size: 10px; color: var(--steel); }
+  .pr-val { font-family: var(--mono), monospace; font-size: 11px; }
+  .pr-positive { color: var(--success); }
+  .pr-negative { color: var(--danger); }
+  .pr-neutral { color: var(--white); }
+  .pr-net { color: var(--accent); font-size: 13px; font-weight: 700; }
+  .chart-wrap { padding: 12px 16px 16px; }
+  .mini-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .mb-label { font-size: 9px; color: var(--steel); font-family: var(--mono), monospace; width: 30px; flex-shrink: 0; }
+  .mb-track { flex: 1; height: 6px; background: rgba(26,109,255,0.08); border-radius: 1px; overflow: hidden; }
+  .mb-fill { height: 100%; border-radius: 1px; transition: width 0.6s ease; }
+  .mb-val { font-size: 9px; font-family: var(--mono), monospace; color: var(--white); width: 36px; text-align: right; flex-shrink: 0; }
+  .activity-item { padding: 8px 16px; border-bottom: 1px solid rgba(26,109,255,0.05); display: flex; align-items: flex-start; gap: 10px; }
+  .activity-item:last-child { border-bottom: none; }
+  .ai-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .ai-text { font-size: 10px; color: var(--chrome); line-height: 1.5; }
+  .ai-time { font-size: 8px; color: var(--steel); font-family: var(--mono), monospace; margin-top: 2px; }
+  .search-bar { display: flex; align-items: center; gap: 8px; background: rgba(26,109,255,0.06); border: 1px solid rgba(26,109,255,0.15); border-radius: 2px; padding: 6px 12px; margin-bottom: 12px; }
+  .search-bar input { background: none; border: none; outline: none; color: var(--chrome); font-size: 10px; font-family: var(--mono), monospace; width: 100%; }
+  .search-icon { color: var(--steel); font-size: 10px; }
+  .tab-row { display: flex; gap: 0; margin-bottom: 0; border-bottom: 1px solid rgba(26,109,255,0.08); }
+  .tab { padding: 8px 14px; font-size: 9px; font-family: var(--mono), monospace; letter-spacing: 0.1em; color: var(--steel); cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.2s; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .sidebar-footer { padding: 16px; border-top: 1px solid rgba(26,109,255,0.08); margin-top: auto; }
+  .user-card { display: flex; align-items: center; gap: 8px; }
+  .user-av { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, #1a6dff, #00d4ff); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: #fff; }
+  .user-name { font-size: 10px; font-weight: 600; color: var(--white); }
+  .user-role { font-size: 8px; color: var(--steel); font-family: var(--mono), monospace; }
+  .online-badge { width: 6px; height: 6px; border-radius: 50%; background: var(--success); margin-left: auto; }
+  .section-divider { height: 1px; background: rgba(26,109,255,0.06); margin: 12px 0; }
+  .filter-chips { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .chip { padding: 3px 10px; border-radius: 2px; font-size: 8px; font-family: var(--mono), monospace; letter-spacing: 0.1em; cursor: pointer; border: 1px solid rgba(26,109,255,0.2); color: var(--steel); }
+  .chip.active { background: rgba(26,109,255,0.15); color: var(--blue2); border-color: rgba(26,109,255,0.4); }
+</style>
+
+<h2 class="sr-only">GENZ FleetOps CRM Dashboard — Operations Command Center showing live booking, fleet, and driver data</h2>
+
+<div class="wrap">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:16px;">
+      <div class="brand"><span>GENZ</span> FleetOps™</div>
+      <div style="width:1px;height:16px;background:rgba(26,109,255,0.2);"></div>
+      <div style="font-size:9px;letter-spacing:0.15em;color:var(--steel);font-family:var(--mono),monospace;">CRM · OPERATIONS COMMAND</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="live-badge"><div class="live-dot"></div>LIVE</div>
+      <div class="timestamp" id="clock">SUN 19 APR 2026 · 16:42:07</div>
+      <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#1a6dff,#00d4ff);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;">SA</div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="sidebar" style="display:flex;flex-direction:column;">
+      <div class="nav-section">
+        <div class="nav-label">MAIN</div>
+        <a href="index.html" class="nav-item active" style="text-decoration:none;color:inherit;"><div class="nav-icon">◈</div>Dashboard</a>
+        <a href="booking.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">📋</div>Bookings <div class="nav-count">12</div></a>
+        <a href="dispatch.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">⚡</div>Dispatch</a>
+        <a href="fleet.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">🚘</div>Fleet</a>
+        <a href="driver.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">👨‍✈️</div>Drivers</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">FINANCE</div>
+        <a href="finance.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">💰</div>Revenue</a>
+        <a href="finance.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">📊</div>Reports</a>
+        <a href="vendor.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">🤝</div>Vendors</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-label">SYSTEM</div>
+        <a href="customers.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">👤</div>Customers</a>
+        <a href="settings.html" class="nav-item" style="text-decoration:none;color:inherit;"><div class="nav-icon">⚙️</div>Settings</a>
+      </div>
+      <div style="flex:1;"></div>
+      <div class="sidebar-footer">
+        <div class="user-card">
+          <div class="user-av">SA</div>
+          <div><div class="user-name">Super Admin</div><div class="user-role">FULL ACCESS</div></div>
+          <div class="online-badge"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="main">
+      <div class="page-header">
+        <div>
+          <div class="page-title">Operations Command</div>
+          <div class="page-sub">REAL-TIME FLEET INTELLIGENCE · DUBAI, UAE</div>
+        </div>
+        <div class="header-actions">
+          <button class="btn-sm btn-outline" onclick="window.location.href='dispatch.html'">⚡ Dispatch View ↗</button>
+          <button class="btn-sm btn-primary" onclick="window.location.href='booking.html'">+ New Booking</button>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi blue">
+          <div class="kpi-label">TODAY'S TRIPS</div>
+          <div class="kpi-val">47<span class="kpi-unit"></span></div>
+          <div class="kpi-delta up">↑ 12 vs yesterday</div>
+        </div>
+        <div class="kpi green">
+          <div class="kpi-label">REVENUE TODAY</div>
+          <div class="kpi-val">14.2<span class="kpi-unit">K AED</span></div>
+          <div class="kpi-delta up">↑ 8.3% this week</div>
+        </div>
+        <div class="kpi cyan">
+          <div class="kpi-label">ACTIVE DRIVERS</div>
+          <div class="kpi-val">18<span class="kpi-unit">/24</span></div>
+          <div class="kpi-delta up">6 on trips now</div>
+        </div>
+        <div class="kpi warn">
+          <div class="kpi-label">NET PROFIT TODAY</div>
+          <div class="kpi-val">8.9<span class="kpi-unit">K AED</span></div>
+          <div class="kpi-delta warn">◈ 63% margin</div>
+        </div>
+      </div>
+
+      <div class="mid-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">LIVE BOOKINGS</div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <div class="panel-badge pb-green">● 6 ACTIVE</div>
+              <div class="panel-badge pb-blue">47 TODAY</div>
+            </div>
+          </div>
+          <div class="tab-row">
+            <div class="tab active">ALL</div>
+            <div class="tab">ACTIVE</div>
+            <div class="tab">CONFIRMED</div>
+            <div class="tab">COMPLETED</div>
+          </div>
+          <div style="padding:8px 12px 0;">
+            <div class="filter-chips">
+              <div class="chip active">ALL TYPES</div>
+              <div class="chip">SEDAN</div>
+              <div class="chip">LUXURY</div>
+              <div class="chip">VAN</div>
+              <div class="chip">BUS</div>
+            </div>
+          </div>
+          <table class="booking-table">
+            <thead>
+              <tr>
+                <th>BOOKING ID</th>
+                <th>CUSTOMER</th>
+                <th>ROUTE</th>
+                <th>VEHICLE</th>
+                <th>DRIVER</th>
+                <th>FARE</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><div class="booking-id">GFO-20490</div></td>
+                <td style="font-size:10px;">Ahmed Al Rashidi</td>
+                <td style="font-size:9px;color:var(--steel);">DXB T3 → Palm Atlantis</td>
+                <td style="font-size:9px;color:var(--chrome);">LUXURY SUV</td>
+                <td><div class="driver-col"><div class="d-avatar">KM</div><span style="font-size:10px;">Khalid M.</span></div></td>
+                <td><div class="fare">AED 185</div></td>
+                <td><span class="status-pill sp-active">ON TRIP</span></td>
+              </tr>
+              <tr>
+                <td><div class="booking-id">GFO-20489</div></td>
+                <td style="font-size:10px;">Sarah Johnson</td>
+                <td style="font-size:9px;color:var(--steel);">DIFC → JBR Walk</td>
+                <td style="font-size:9px;color:var(--chrome);">SEDAN</td>
+                <td><div class="driver-col"><div class="d-avatar">AR</div><span style="font-size:10px;">Ahmed R.</span></div></td>
+                <td><div class="fare">AED 95</div></td>
+                <td><span class="status-pill sp-active">ON TRIP</span></td>
+              </tr>
+              <tr>
+                <td><div class="booking-id">GFO-20488</div></td>
+                <td style="font-size:10px;">Omar Farouq</td>
+                <td style="font-size:9px;color:var(--steel);">Burj Khalifa → AUH</td>
+                <td style="font-size:9px;color:var(--chrome);">VAN 7-PAX</td>
+                <td><div class="driver-col"><div class="d-avatar">YT</div><span style="font-size:10px;">Yusuf T.</span></div></td>
+                <td><div class="fare">AED 320</div></td>
+                <td><span class="status-pill sp-confirmed">CONFIRMED</span></td>
+              </tr>
+              <tr>
+                <td><div class="booking-id">GFO-20487</div></td>
+                <td style="font-size:10px;">Priya Menon</td>
+                <td style="font-size:9px;color:var(--steel);">Marina → Mall of Emirates</td>
+                <td style="font-size:9px;color:var(--chrome);">SEDAN</td>
+                <td><div class="driver-col"><div class="d-avatar">SR</div><span style="font-size:10px;">Salim R.</span></div></td>
+                <td><div class="fare">AED 75</div></td>
+                <td><span class="status-pill sp-completed">COMPLETED</span></td>
+              </tr>
+              <tr>
+                <td><div class="booking-id">GFO-20491</div></td>
+                <td style="font-size:10px;">TechCorp LLC</td>
+                <td style="font-size:9px;color:var(--steel);">Business Bay → DXB T1</td>
+                <td style="font-size:9px;color:var(--chrome);">LUXURY</td>
+                <td><div class="driver-col"><div class="d-avatar" style="background:rgba(255,176,32,0.15);color:var(--warn);border-color:rgba(255,176,32,0.3);">—</div><span style="font-size:10px;color:var(--warn);">Unassigned</span></div></td>
+                <td><div class="fare">AED 140</div></td>
+                <td><span class="status-pill sp-pending">PENDING</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">FLEET STATUS</div>
+              <div class="panel-badge pb-blue">14 VEHICLES</div>
+            </div>
+            <div class="fleet-item">
+              <div class="fleet-icon">🚙</div>
+              <div class="fleet-info">
+                <div class="fleet-plate">DXB A 14529</div>
+                <div class="fleet-model">Mercedes S-Class · 2024</div>
+              </div>
+              <div class="fleet-status fs-on-trip">● ON TRIP</div>
+            </div>
+            <div class="fleet-item">
+              <div class="fleet-icon">🚗</div>
+              <div class="fleet-info">
+                <div class="fleet-plate">DXB P 77812</div>
+                <div class="fleet-model">BMW 7-Series · 2024</div>
+              </div>
+              <div class="fleet-status fs-available">◈ AVAILABLE</div>
+            </div>
+            <div class="fleet-item">
+              <div class="fleet-icon">🚐</div>
+              <div class="fleet-info">
+                <div class="fleet-plate">DXB K 33401</div>
+                <div class="fleet-model">Toyota HiAce · 2023</div>
+              </div>
+              <div class="fleet-status fs-on-trip">● ON TRIP</div>
+            </div>
+            <div class="fleet-item">
+              <div class="fleet-icon">🚙</div>
+              <div class="fleet-info">
+                <div class="fleet-plate">DXB M 90211</div>
+                <div class="fleet-model">Cadillac Escalade · 2024</div>
+              </div>
+              <div class="fleet-status fs-maintenance" style="color:var(--warn);">⚠ MAINTENANCE</div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-head">
+              <div class="panel-title">TODAY'S P&L</div>
+              <div class="panel-badge pb-green">LIVE</div>
+            </div>
+            <div class="profit-row">
+              <div class="pr-label">Gross Revenue</div>
+              <div class="pr-val pr-neutral">AED 14,240</div>
+            </div>
+            <div class="profit-row">
+              <div class="pr-label">Driver Costs</div>
+              <div class="pr-val pr-negative">−AED 2,848</div>
+            </div>
+            <div class="profit-row">
+              <div class="pr-label">Fuel</div>
+              <div class="pr-val pr-negative">−AED 1,100</div>
+            </div>
+            <div class="profit-row">
+              <div class="pr-label">Salik / Parking</div>
+              <div class="pr-val pr-negative">−AED 340</div>
+            </div>
+            <div class="profit-row" style="border-top:1px solid rgba(0,212,255,0.15);background:rgba(0,212,255,0.04);">
+              <div class="pr-label" style="color:var(--accent);font-weight:700;font-size:11px;">NET PROFIT</div>
+              <div class="pr-val pr-net">AED 9,952</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bottom-grid">
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">DRIVER PERFORMANCE</div>
+            <div class="panel-badge pb-blue">TODAY</div>
+          </div>
+          <div class="driver-item">
+            <div class="da-big">KM</div>
+            <div>
+              <div class="di-name">Khalid Mohammed</div>
+              <div class="di-meta">8 trips · 560km · ON DUTY</div>
+            </div>
+            <div class="di-score">
+              <div class="score-val" style="color:var(--success);">4.9</div>
+              <div class="score-lbl">RATING</div>
+            </div>
+          </div>
+          <div class="driver-item">
+            <div class="da-big">AR</div>
+            <div>
+              <div class="di-name">Ahmed Al Rashid</div>
+              <div class="di-meta">6 trips · 420km · ACTIVE</div>
+            </div>
+            <div class="di-score">
+              <div class="score-val" style="color:var(--success);">4.8</div>
+              <div class="score-lbl">RATING</div>
+            </div>
+          </div>
+          <div class="driver-item">
+            <div class="da-big">YT</div>
+            <div>
+              <div class="di-name">Yusuf Tamimi</div>
+              <div class="di-meta">5 trips · 310km · ON TRIP</div>
+            </div>
+            <div class="di-score">
+              <div class="score-val" style="color:var(--warn);">4.5</div>
+              <div class="score-lbl">RATING</div>
+            </div>
+          </div>
+          <div class="driver-item">
+            <div class="da-big">SR</div>
+            <div>
+              <div class="di-name">Salim Rahman</div>
+              <div class="di-meta">4 trips · 280km · AVAILABLE</div>
+            </div>
+            <div class="di-score">
+              <div class="score-val" style="color:var(--accent);">4.7</div>
+              <div class="score-lbl">RATING</div>
+            </div>
+          </div>
+          <div style="padding:10px 16px;">
+            <button class="btn-sm btn-outline" style="width:100%;text-align:center;" onclick="window.location.href='driver.html'">View All Drivers ↗</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <div class="panel-title">WEEKLY REVENUE</div>
+            <div class="panel-badge pb-green">AED</div>
+          </div>
+          <div class="chart-wrap">
+            <div class="mini-bar-row">
+              <div class="mb-label">MON</div>
+              <div class="mb-track"><div class="mb-fill" style="width:72%;background:var(--blue);"></div></div>
+              <div class="mb-val">10.8K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">TUE</div>
+              <div class="mb-track"><div class="mb-fill" style="width:85%;background:var(--blue);"></div></div>
+              <div class="mb-val">12.7K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">WED</div>
+              <div class="mb-track"><div class="mb-fill" style="width:60%;background:var(--blue);"></div></div>
+              <div class="mb-val">9.0K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">THU</div>
+              <div class="mb-track"><div class="mb-fill" style="width:92%;background:var(--blue2);"></div></div>
+              <div class="mb-val">13.8K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">FRI</div>
+              <div class="mb-track"><div class="mb-fill" style="width:100%;background:var(--accent);"></div></div>
+              <div class="mb-val">15.1K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">SAT</div>
+              <div class="mb-track"><div class="mb-fill" style="width:88%;background:var(--blue2);"></div></div>
+              <div class="mb-val">13.2K</div>
+            </div>
+            <div class="mini-bar-row">
+              <div class="mb-label">SUN</div>
+              <div class="mb-track"><div class="mb-fill" style="width:95%;background:var(--accent);animation:growBar 1.5s ease forwards;"></div></div>
+              <div class="mb-val">14.2K</div>
+            </div>
+            <div class="section-divider"></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;padding-top:4px;">
+              <div>
+                <div style="font-size:8px;color:var(--steel);font-family:var(--mono),monospace;letter-spacing:0.1em;">WEEK TOTAL</div>
+                <div style="font-family:var(--head),sans-serif;font-size:20px;font-weight:700;color:var(--white);">88.8K <span style="font-size:10px;color:var(--steel);">AED</span></div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:8px;color:var(--steel);font-family:var(--mono),monospace;letter-spacing:0.1em;">AVG MARGIN</div>
+                <div style="font-family:var(--head),sans-serif;font-size:20px;font-weight:700;color:var(--success);">64%</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 16px 12px;">
+            <button class="btn-sm btn-outline" style="width:100%;text-align:center;" onclick="window.location.href='finance.html'">Full Finance Report ↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function updateClock() {
+  const now = new Date();
+  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  const d = days[now.getDay()];
+  const day = String(now.getDate()).padStart(2,'0');
+  const m = months[now.getMonth()];
+  const y = now.getFullYear();
+  const h = String(now.getHours()).padStart(2,'0');
+  const min = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  const el = document.getElementById('clock');
+  if(el) el.textContent = `${d} ${day} ${m} ${y} · ${h}:${min}:${s}`;
+}
+updateClock();
+setInterval(updateClock, 1000);
+
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+  });
+});
+document.querySelectorAll('.nav-item').forEach(n => {
+  n.addEventListener('click', () => {
+    document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
+    n.classList.add('active');
+  });
+});
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+    c.classList.add('active');
+  });
+});
+</script>
